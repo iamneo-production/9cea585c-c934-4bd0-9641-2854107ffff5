@@ -11,6 +11,7 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <sonar.sources>springapp/src/main</sonar.sources>
         <sonar.tests>springapp/src/test</sonar.tests>
 =======
@@ -21,6 +22,10 @@
         <sonar.sources>null</sonar.sources>
         <sonar.tests>null</sonar.tests>
 >>>>>>> 27820ff ( commit)
+=======
+        <sonar.sources>null</sonar.sources>
+        <sonar.tests>null</sonar.tests>
+>>>>>>> 1408b1f ( commit)
         <sonar.java.binaries>target</sonar.java.binaries>
     </properties>
     <dependencies>
