@@ -4,37 +4,37 @@ function Registerform() {
     return (
         <Container>
         <Form>
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control type="text" placeholder="Normal text" />
+            <Form.Group className="mb-3" >
+                <Form.Label>Name</Form.Label>
+                <Form.Control type="text" placeholder="Name" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+            <Form.Group className="mb-3" >
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="name@example.com" />
+                <Form.Control type="email" placeholder="@gmail.com" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Email address</Form.Label>
+            <Form.Group className="mb-3" >
+                <Form.Label>Phone Number</Form.Label>
                 <Form.Control type="number" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Email address</Form.Label>
+            <Form.Group className="mb-3" >
+                <Form.Label>Alternate Phone Number</Form.Label>
                 <Form.Control type="number" />
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formFile">
-                <Form.Label>Default file input example</Form.Label>
+                <Form.Label>Profile Image</Form.Label>
                 <Form.Control type="file" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3">
                 <Form.Label>Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3">
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
             </Form.Group>
