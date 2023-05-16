@@ -38,6 +38,18 @@ function Registerform() {
                 <Form.Label>Confirm Password</Form.Label>
                 <Form.Control type="password" placeholder="Password" />
             </Form.Group>
+
+            <Form.Group className="mb-3">
+                <Form.Label>Gender </Form.Label>
+                <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1" />
+                    <label className="form-check-label" htmlFor="inlineRadio1">Male</label>
+                </div>
+                <div className="form-check form-check-inline">
+                    <input className="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2" />
+                    <label className="form-check-label" htmlFor="inlineRadio2">Female</label>
+                </div>
+            </Form.Group>
             
             <Button variant="primary" type="submit">
                 Submit
