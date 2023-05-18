@@ -1,5 +1,5 @@
 import * as React from 'react';
-import Navheader from "./Component/Navbar";
+import Navheader from "./Component/Navbar1";
 
 function Example() {
   return (
