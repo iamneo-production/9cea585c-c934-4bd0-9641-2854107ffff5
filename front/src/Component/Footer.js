@@ -1,26 +1,25 @@
 import React from 'react';
-import { Container,NavLink} from 'react-bootstrap';
-import { Link} from 'react-router-dom';
+import { Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function Navfooter() {
-return (
-<div>
-    <Container>
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0" id='ul-nb'>
-            <li class="nav-item">
-                <NavLink className="remul" as={Link} to={"/Home"}>Home
-                </NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink className="remul" as={Link} to={"/About"}>About Us</NavLink>
-            </li>
-            <li class="nav-item">
-                <NavLink className="remul" as={Link} to={"/Contact"}>Contact Us</NavLink>
-            </li>
-        </ul>
-    </Container>
-</div>
-);
+  return (
+    <footer className="footer mt-auto py-3 bg-light">
+      <Container>
+        <Nav className="justify-content-center">
+          <Nav.Item>
+            <Nav.Link as={Link} to="/Home">Home</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link as={Link} to="/About">About Us</Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link as={Link} to="/Contact">Contact Us</Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </Container>
+    </footer>
+  );
 }
 
 export default Navfooter;
