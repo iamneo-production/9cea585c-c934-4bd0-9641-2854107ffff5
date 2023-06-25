@@ -71,6 +71,18 @@
     		<artifactId>javax.persistence-api</artifactId>
     		<version>2.2</version>
 		</dependency>
+		<!-- Spring Boot Starter JDBC -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+
+		<!-- Oracle JDBC driver -->
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc8</artifactId>
+			<version>19.8.0.0</version> <!-- Replace with the appropriate version for your Oracle database -->
+		</dependency>
 
 	</dependencies>
 
