@@ -10,12 +10,17 @@
         <sonar.organization>iamneo-production</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <sonar.sources>springapp/src/main</sonar.sources>
         <sonar.tests>springapp/src/test</sonar.tests>
 =======
         <sonar.sources>null</sonar.sources>
         <sonar.tests>null</sonar.tests>
 >>>>>>> f4b7212 ( commit)
+=======
+        <sonar.sources>null</sonar.sources>
+        <sonar.tests>null</sonar.tests>
+>>>>>>> 27820ff ( commit)
         <sonar.java.binaries>target</sonar.java.binaries>
     </properties>
     <dependencies>
