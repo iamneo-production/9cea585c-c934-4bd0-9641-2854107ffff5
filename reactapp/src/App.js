@@ -2,7 +2,7 @@ import './App.css';
 
 function App() {
   return (
-  <h1>Team -32</h1>
+  <h1>Team Connection check</h1>
   );
 }
 
