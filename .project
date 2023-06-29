@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>iamneo-production_9cea585c-c934-4bd0-9641-2854107ffff5</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+	</natures>
+	<filteredResources>
+		<filter>
+<<<<<<< HEAD
+<<<<<<< HEAD
+			<id>1683122126571</id>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+			<id>1682934291235</id>
+=======
+			<id>1682922874182</id>
+>>>>>>> Project-Workspace-MuskanChhabraa
+=======
+			<id>1682939588612</id>
+=======
+			<id>1683175892715</id>
+>>>>>>> Project-Workspace-mathi19
+>>>>>>> aa66f756ac625a0d5a1f7f353050ebbb81b80a51
+>>>>>>> main
+=======
+			<id>1683122118778</id>
+>>>>>>> Project-Workspace-archanakarchana
+			<name></name>
+			<type>30</type>
+			<matcher>
+				<id>org.eclipse.core.resources.regexFilterMatcher</id>
+				<arguments>node_modules|.git|__CREATED_BY_JAVA_LANGUAGE_SERVER__</arguments>
+			</matcher>
+		</filter>
+	</filteredResources>
+</projectDescription>
