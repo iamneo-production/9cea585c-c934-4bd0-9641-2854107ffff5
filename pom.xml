@@ -14,6 +14,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         <sonar.sources>springapp/src/main</sonar.sources>
         <sonar.tests>springapp/src/test</sonar.tests>
 =======
@@ -36,6 +37,10 @@
         <sonar.sources>null</sonar.sources>
         <sonar.tests>null</sonar.tests>
 >>>>>>> 5411cb9 ( Commit)
+=======
+        <sonar.sources>null</sonar.sources>
+        <sonar.tests>null</sonar.tests>
+>>>>>>> e5124d7 ( commit)
         <sonar.java.binaries>target</sonar.java.binaries>
     </properties>
     <dependencies>
