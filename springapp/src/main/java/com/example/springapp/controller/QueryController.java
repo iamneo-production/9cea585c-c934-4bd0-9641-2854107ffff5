@@ -33,6 +33,17 @@ public class QueryController {
             return new ResponseEntity<>("Failed to create query", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{userId}/{userRole}")
+    public ResponseEntity<List<Query>> getUserQueries(@PathVariable Long userId, @PathVariable String userRole) {
+        List<Query> userQueries = queryService.getUserQueries(userId, userRole);
+        if (userQueries != null && !userQueries.isEmpty()) {
+            return new ResponseEntity<>(userQueries, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/{queryId}")
     public ResponseEntity<String> postReply(@PathVariable Long queryId, @RequestBody String reply) {
         boolean success = queryService.addReplyToQuery(queryId, reply);
@@ -40,6 +51,16 @@ public class QueryController {
             return new ResponseEntity<>("Reply posted successfully", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Failed to post reply", HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Query>> getAllQueries() {
+        List<Query> allQueries = queryService.getAllQueries();
+        if (allQueries != null && !allQueries.isEmpty()) {
+            return new ResponseEntity<>(allQueries, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
