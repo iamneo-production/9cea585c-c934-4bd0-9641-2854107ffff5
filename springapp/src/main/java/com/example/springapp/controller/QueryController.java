@@ -63,6 +63,4 @@ public class QueryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
-
-   
 }

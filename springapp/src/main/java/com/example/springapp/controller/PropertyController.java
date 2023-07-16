@@ -70,6 +70,26 @@ public class PropertyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+    
+    @GetMapping
+    public ResponseEntity<List<Property>> getAllProperties() {
+        List<Property> properties = propertyService.getAllProperties();
+        if (!properties.isEmpty()) {
+            return new ResponseEntity<>(properties, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
+
+    @GetMapping("/admin")
+    public ResponseEntity<List<Property>> getProperties() {
+        List<Property> properties = propertyService.getProperties();
+        if (!properties.isEmpty()) {
+            return new ResponseEntity<>(properties, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
