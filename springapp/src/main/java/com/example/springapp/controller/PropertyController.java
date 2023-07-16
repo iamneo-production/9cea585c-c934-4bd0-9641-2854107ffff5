@@ -71,4 +71,14 @@ public class PropertyController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Property> getPropertyById(@PathVariable Long id) {
+        Property property = propertyService.getPropertyById(id);
+        if (property != null) {
+            return new ResponseEntity<>(property, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
 }
