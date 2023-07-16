@@ -78,6 +78,83 @@ function DefaultHeader() {
     </Navbar>
   );
 }
+
+
+function BuyerHeader() {
+  const navigate = useNavigate();
+  const { clearUser } = useContext(UserContext);
+
+  const handleLogout = () => {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
+    clearUser();
+    navigate('/Home');
+  };
+
+  const handleLogoutClick = () => {
+    if (window.confirm('Are you sure you want to logout?')) {
+      handleLogout();
+    }
+  };
+
+  return (
+    <Navbar bg="light" expand="lg">
+      <Container>
+        <Navbar.Brand as={Link} to="/Home">
+          <img
+            src="./logo512.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+            alt="React Bootstrap logo"
+          />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="navbar-nav" />
+        <Navbar.Collapse id="navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Item>
+              <Nav.Link as={Link} to="/Home">Home</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to={"/Propertylisting"}>Property Listing</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to="/About">About Us</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to={"/Contact"}>Contact Us</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link as={Link} to="/HelpCenter">Help Center</Nav.Link>
+            </Nav.Item>
+          </Nav>
+          <Nav>
+            <Nav.Item>
+              <Nav.Link as={Link} to={"/Favproperty"}>
+                <FaHeart
+                  data-bs-toggle="tooltip"
+                  data-bs-placement="bottom"
+                  title="Favorites"
+                  data-bs-tooltip-custom-class="tooltip-custom"
+                /></Nav.Link>
+            </Nav.Item>
+            <NavDropdown title={<FaUser
+              data-bs-toggle="tooltip"
+              data-bs-placement="bottom"
+              title="Account"
+              data-bs-tooltip-custom-class="tooltip-custom"
+            />} id="basic-nav-dropdown">
+              <NavDropdown.Item as={Link} to={"/BuyerProfile"}>My Profile</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+}
+
 function Header() {
   const { userRole } = useContext(UserContext);
 
