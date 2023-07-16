@@ -66,6 +66,7 @@ public class PurchaseController {
             purchase.setStatus("Initiated");
             // Set the current time to the createdAt field
             purchase.setCreatedAt(LocalDateTime.now());
+            
             Purchase Order = purchaseService.savePurchase(purchase);
 
             return new ResponseEntity<>(Order, HttpStatus.CREATED);
