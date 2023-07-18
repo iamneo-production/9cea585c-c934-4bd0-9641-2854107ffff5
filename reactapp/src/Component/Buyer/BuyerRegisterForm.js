@@ -70,7 +70,7 @@ function BuyerRegisterForm({ onCloseModal }) {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/users/register', formData);
+      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/register', formData);
       console.log(formData);
       if (response.status === 201) {
         // Registration successful

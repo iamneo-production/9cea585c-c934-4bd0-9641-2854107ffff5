@@ -11,7 +11,7 @@ const DeactivateAccount = () => {
   const handleDeactivate = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.delete(`http://localhost:8080/agents/${userId}`);
+      const response = await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${userId}`);
       console.log(response.data);
       alert('Account deactivated successfully');
       clearUser(); // Clear user data from local storage

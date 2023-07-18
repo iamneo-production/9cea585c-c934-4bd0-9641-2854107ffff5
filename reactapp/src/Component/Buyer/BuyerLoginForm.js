@@ -27,7 +27,7 @@ function BuyerLoginForm({ onCloseModal }) {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:8080/users/login', formData);
+      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/login', formData);
       const userId = response.data.id;
 
       // Store the token in localStorage

@@ -28,7 +28,7 @@ import com.example.springapp.service.PropertyService;
 
 @RestController
 @RequestMapping("/properties")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*")
 public class PropertyController {
 
     @Autowired
@@ -37,8 +37,8 @@ public class PropertyController {
     @Autowired
     private AgentRepository agentRepository;
 
-    @Value("${property.media.path}")
-    private String mediaPath;
+    // @Value("${property.media.path}")
+    private String mediaPath="reactapp/public/Assets/PropertyMedia/";
 
     @PostMapping
     public ResponseEntity<Property> registerProperty(

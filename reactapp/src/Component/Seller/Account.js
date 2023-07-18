@@ -22,7 +22,7 @@ const Account = () => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`http://localhost:8080/agents/id?id=${userId}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/id?id=${userId}`);
         const userData = response.data;
 
         setFormData(userData);
@@ -67,7 +67,7 @@ const Account = () => {
   const handleSave = async () => {
     try {
       console.log(formData);
-      await axios.put(`http://localhost:8080/agents/`, formData, {
+      await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

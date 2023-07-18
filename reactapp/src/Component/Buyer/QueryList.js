@@ -12,7 +12,7 @@ const QueryList = () => {
   const fetchQueries = useCallback(async () => {
     try {
       if (userId && userRole) {
-        const response = await axios.get(`http://localhost:8080/Query/${userId}/${userRole}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query/${userId}/${userRole}`);
         const data = response.data;
         setQueries(data);
       }

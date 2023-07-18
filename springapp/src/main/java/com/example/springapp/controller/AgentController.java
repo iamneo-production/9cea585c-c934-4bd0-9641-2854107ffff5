@@ -26,7 +26,7 @@ import com.example.springapp.model.Property;
 import com.example.springapp.service.AgentService;
 import com.example.springapp.service.PropertyService;
 
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*")
 @RestController
 @RequestMapping("/agents")
 public class AgentController {
@@ -37,8 +37,8 @@ public class AgentController {
     @Autowired
     PropertyService propertyService;
 
-    @Value("${profile.image.path}")
-    private String imageUploadPath;
+    // @Value("${profile.image.path}")
+    private String imageUploadPath="reactapp/public/Assets/ProfileImage/";
 
     @PostMapping
     public ResponseEntity<Agent> registerAgent(

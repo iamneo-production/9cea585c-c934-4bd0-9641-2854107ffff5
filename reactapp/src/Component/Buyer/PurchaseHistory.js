@@ -11,7 +11,7 @@ const PurchaseHistory = () => {
     const fetchPurchaseHistory = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`http://localhost:8080/purchase/history?userId=${userId}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/history?userId=${userId}`);
         setPurchaseData(response.data);
       } catch (error) {
         console.error('Error fetching purchase history:', error);

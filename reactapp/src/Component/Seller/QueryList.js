@@ -12,7 +12,7 @@ const QueryList = () => {
   const fetchQueries = useCallback(async () => {
     try {
       if (userId && userRole) {
-        const response = await axios.get(`http://localhost:8080/Query/${userId}/${userRole}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query/${userId}/${userRole}`);
         const data = response.data;
         setQueries(data);
       }
@@ -36,7 +36,7 @@ const QueryList = () => {
   const postReply = async (queryId) => {
     try {
       const replyText = replyTextMap[queryId] || ''; // Retrieve the reply text from the map
-      await axios.post(`http://localhost:8080/Query/${queryId}`, `${userRole}: ${replyText}`, {
+      await axios.post(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query/${queryId}`, `${userRole}: ${replyText}`, {
         headers: {
           'Content-Type': 'text/plain',
         },
