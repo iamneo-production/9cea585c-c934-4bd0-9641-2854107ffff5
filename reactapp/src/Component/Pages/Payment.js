@@ -23,7 +23,7 @@ function Payment() {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`http://localhost:8080/users/id?id=${userId}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`);
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -41,7 +41,7 @@ function Payment() {
     try {
       event.preventDefault();
       // Create a new Razorpay order on the server
-      const orderresponse = await axios.post('http://localhost:8080/purchase/order', null, {
+      const orderresponse = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order', null, {
         params: {
           propertyId: property.id,
           userId: userData.id,
@@ -84,7 +84,7 @@ function Payment() {
           }
           console.log(razorpay);
           try {
-            await axios.put(`http://localhost:8080/purchase/order/${id}`, null, {
+            await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order/${id}`, null, {
               params: {
                 paymentId: razorpay.razorpayPaymentId,
               }

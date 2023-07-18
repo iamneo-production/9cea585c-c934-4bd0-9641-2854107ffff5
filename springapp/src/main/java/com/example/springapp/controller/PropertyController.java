@@ -28,7 +28,7 @@ import com.example.springapp.service.PropertyService;
 
 @RestController
 @RequestMapping("/properties")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*")
 public class PropertyController {
 
     @Autowired
@@ -37,8 +37,8 @@ public class PropertyController {
     @Autowired
     private AgentRepository agentRepository;
 
-    @Value("${property.media.path}")
-    private String mediaPath;
+    // @Value("${property.media.path}")
+    private String mediaPath="reactapp/public/Assets/PropertyMedia/";
 
     @PostMapping
     public ResponseEntity<Property> registerProperty(
@@ -70,7 +70,7 @@ public class PropertyController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
     @GetMapping
     public ResponseEntity<List<Property>> getAllProperties() {
         List<Property> properties = propertyService.getAllProperties();
@@ -101,4 +101,62 @@ public class PropertyController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProperty(@PathVariable Long id) {
+        Property property = propertyService.getPropertyById(id);
+        if (property != null) {
+            propertyService.deleteProperty(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    private List<String> saveMediaFiles(MultipartFile[] files) {
+        List<String> fileUrls = new ArrayList<>();
+        for (MultipartFile file : files) {
+            try {
+                String fileUrl = saveFile(file);
+                fileUrls.add(fileUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return fileUrls;
+    }
+
+    private String saveFile(MultipartFile file) throws IOException {
+        String fileName = file.getOriginalFilename();
+        String filePath = mediaPath + fileName;
+        File destinationFile = new File(filePath);
+        file.transferTo(destinationFile);
+        return fileName;
+    }
+
+    @PutMapping
+    public ResponseEntity<Property> updateProperty(
+            @RequestParam("id") Long id,
+            @ModelAttribute Property property,
+            @RequestParam(value = "images", required = false) MultipartFile[] images,
+            @RequestParam(value = "videos", required = false) MultipartFile[] videos) {
+
+        // Handle images and update URLs if provided
+        List<String> newimageUrls = null;
+        if (images != null && images.length > 0) {
+            newimageUrls = saveMediaFiles(images);
+        }
+
+        // Handle videos and update URLs if provided
+        List<String> newvideoUrls = null;
+        if (videos != null && videos.length > 0) {
+            newvideoUrls = saveMediaFiles(videos);
+        }
+
+        Property updatedProperty = propertyService.updateProperty(id, property, newimageUrls, newvideoUrls);
+        if (updatedProperty != null) {
+            return ResponseEntity.ok(updatedProperty);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

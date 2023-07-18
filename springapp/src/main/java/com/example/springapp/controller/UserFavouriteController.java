@@ -14,31 +14,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springapp.model.UserFavorite;
-import com.example.springapp.service.UserFavoriteService;
+import com.example.springapp.model.UserFavourite;
+import com.example.springapp.service.UserFavouriteService;
 
 @RestController
-@RequestMapping("/favorites")
-@CrossOrigin(origins = "http://localhost:3000", allowedHeaders = "*")
-public class UserFavoriteController {
+@RequestMapping("/favourites")
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*")
+public class UserFavouriteController {
 
     @Autowired
-    UserFavoriteService userFavoriteService;
+    UserFavouriteService userFavouriteService;
 
     @GetMapping("/user")
-    public ResponseEntity<List<UserFavorite>> getUserFavorites(@RequestParam Long userId) {
+    public ResponseEntity<List<UserFavourite>> getUserFavourites(@RequestParam Long userId) {
         try {
-            List<UserFavorite> userFavorites = userFavoriteService.getUserFavorites(userId);
-            return ResponseEntity.ok(userFavorites);
+            List<UserFavourite> userFavourites = userFavouriteService.getUserFavourites(userId);
+            return ResponseEntity.ok(userFavourites);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<UserFavorite> addUserFavorite(@RequestBody UserFavorite userFavorite) {
+    public ResponseEntity<UserFavourite> addUserFavourite(@RequestBody UserFavourite userFavourite) {
         try {
-            UserFavorite addedFavorite = userFavoriteService.addUserFavorite(userFavorite);
+            UserFavourite addedFavorite = userFavouriteService.addUserFavourite(userFavourite);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedFavorite);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -46,9 +46,9 @@ public class UserFavoriteController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> removeUserFavorite(@RequestParam Long favId) {
+    public ResponseEntity<Void> removeUserFavourite(@RequestParam Long favId) {
         try {
-            userFavoriteService.removeUserFavorite(favId);
+            userFavouriteService.removeUserFavourite(favId);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
