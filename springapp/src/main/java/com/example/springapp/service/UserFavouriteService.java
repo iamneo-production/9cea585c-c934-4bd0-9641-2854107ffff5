@@ -5,36 +5,36 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.springapp.model.UserFavorite;
-import com.example.springapp.repository.UserFavoriteRepository;
+import com.example.springapp.model.UserFavourite;
+import com.example.springapp.repository.UserFavouriteRepository;
 
 @Service
-public class UserFavoriteService {
+public class UserFavouriteService {
 
     @Autowired
-    UserFavoriteRepository userFavoriteRepository;
+    UserFavouriteRepository userFavouriteRepository;
 
-    public List<UserFavorite> getUserFavorites(Long userId) {
+    public List<userFavourite> getUserFavourites(Long userId) {
         try {
-            return userFavoriteRepository.findByUserId(userId);
+            return UserFavouriteRepository.findByUserId(userId);
         } catch (Exception e) {
             // Handle exception
             throw new RuntimeException("Failed to get user favorites");
         }
     }
 
-    public UserFavorite addUserFavorite(UserFavorite userFavorite) {
+    public UserFavourite addUserFavourite(UserFavourite userFavourite) {
         try {
-            return userFavoriteRepository.save(userFavorite);
+            return UserFavouriteRepository.save(userFavourite);
         } catch (Exception e) {
             // Handle exception
             throw new RuntimeException("Failed to add user favorite");
         }
     }
 
-    public void removeUserFavorite(Long favId) {
+    public void removeUserFavourite(Long favId) {
         try {
-            userFavoriteRepository.deleteById(favId);
+            UserFavouriteRepository.deleteById(favId);
         } catch (Exception e) {
             // Handle exception
             throw new RuntimeException("Failed to remove user favorite");
