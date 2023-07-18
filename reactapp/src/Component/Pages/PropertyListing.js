@@ -15,7 +15,7 @@ function PropertyListing() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userRole } = useContext(UserContext);
-  const [favoriteProperties, setFavoriteProperties] = useState([]);
+  const [favouriteProperties, setFavouriteProperties] = useState([]);
 
   const backendImagePath = './Assets/PropertyMedia';
 
@@ -63,14 +63,14 @@ function PropertyListing() {
 
   const userId = localStorage.getItem("userId");
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchFavourites = async () => {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
             `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`
           );
           if (response.data && response.data.length > 0) {
-            setFavoriteProperties(response.data);
+            setFavouriteProperties(response.data);
             console.log(response.data);
           }
         }
@@ -79,7 +79,7 @@ function PropertyListing() {
       }
     };
 
-    fetchFavorites();
+    fetchFavourites();
   }, [userRole, userId]);
 
 
@@ -127,23 +127,23 @@ function PropertyListing() {
       </div>
     );
   };
-  const handleFavoriteClick = async (propertyId) => {
+  const handleFavouriteClick = async (propertyId) => {
     try {
-      const favorite = favoriteProperties.find((fav) => fav.propertyId === propertyId);
-      if (favorite) {
-        // Property is already in favorites, so remove it
-        console.log(favorite);
-        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favorite.id}`);
-        setFavoriteProperties((prevFavorites) =>
-          prevFavorites.filter((fav) => fav.propertyId !== propertyId)
+      const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
+      if (favourite) {
+        // Property is already in favourites, so remove it
+        console.log(favourite);
+        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`);
+        setFavouriteProperties((prevFavourites) =>
+          prevFavourites.filter((fav) => fav.propertyId !== propertyId)
         );
       } else {
-        // Property is not in favorites, so add it
+        // Property is not in favourites, so add it
         const response = await axios.post("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
           userId: userId,
           propertyId: propertyId,
         });
-        setFavoriteProperties((prevFavorites) => [...prevFavorites, response.data]);
+        setFavouriteProperties((prevFavourites) => [...prevFavourites, response.data]);
         console.log(response.data);
       }
     } catch (error) {
@@ -259,19 +259,19 @@ function PropertyListing() {
                   <Col xs="auto">
                     {userRole === "buyer" && (
                       <Card.Text>
-                        {favoriteProperties && favoriteProperties.length > 0 && favoriteProperties.some(
+                        {favouriteProperties && favouriteProperties.length > 0 && favouriteProperties.some(
                           (fav) => fav.propertyId === property.id
                         ) ? (
                           <FaHeart
                             color="red"
-                            onClick={() => handleFavoriteClick(property.id)}
+                            onClick={() => handleFavouriteClick(property.id)}
                             style={{ cursor: "pointer" }}
                             className="bounce"
                           />
                         ) : (
                           <FaHeart
                             color="gray"
-                            onClick={() => handleFavoriteClick(property.id)}
+                            onClick={() => handleFavouriteClick(property.id)}
                             style={{ cursor: "pointer" }}
                             className="pulse"
                           />

@@ -5,7 +5,7 @@ import { FaHeart, FaMapMarkerAlt, FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { UserContext } from '../UserProvider';
 
-function FavoriteProperty() {
+function FavouriteProperty() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("All");
   const [selectedType, setSelectedType] = useState("All");
@@ -15,7 +15,7 @@ function FavoriteProperty() {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const { userRole } = useContext(UserContext);
-  const [favoriteProperties, setFavoriteProperties] = useState([]);
+  const [favouriteProperties, setFavouriteProperties] = useState([]);
 
   const backendImagePath = './Assets/PropertyMedia';
 
@@ -63,14 +63,14 @@ function FavoriteProperty() {
 
   const userId = localStorage.getItem("userId");
   useEffect(() => {
-    const fetchFavorites = async () => {
+    const fetchFavourites = async () => {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
             `http://localhost:8080/favourites/user?userId=${userId}`
           );
           if (response.data && response.data.length > 0) {
-            setFavoriteProperties(response.data);
+            setFavouriteProperties(response.data);
           }
         }
       } catch (error) {
@@ -78,12 +78,12 @@ function FavoriteProperty() {
       }
     };
 
-    fetchFavorites();
+    fetchFavourites();
   }, [userRole, userId]);
 
   const filteredProperties = properties.filter((property) => {
-    // Check if the property's id is present in the favoriteProperties array
-    const isFavorite = favoriteProperties.some((fav) => fav.propertyId === property.id);
+    // Check if the property's id is present in the favouriteProperties array
+    const isFavourite = favouriteProperties.some((fav) => fav.propertyId === property.id);
 
     // Apply other filtering conditions
     const keywordMatch =
@@ -104,8 +104,8 @@ function FavoriteProperty() {
         selectedPriceRange === "500001-1000000" ? property.price > 500000 && property.price <= 1000000 :
           property.price > 1000000);
 
-    // Return true only if the property is a favorite and matches all other filtering conditions
-    return isFavorite && keywordMatch && locationMatch && typeMatch && featureMatch && priceMatch;
+    // Return true only if the property is a favourite and matches all other filtering conditions
+    return isFavourite && keywordMatch && locationMatch && typeMatch && featureMatch && priceMatch;
   });
 
 
@@ -132,23 +132,23 @@ function FavoriteProperty() {
     );
   };
 
-  const handleFavoriteClick = async (propertyId) => {
+  const handleFavouriteClick = async (propertyId) => {
     try {
-      const favorite = favoriteProperties.find((fav) => fav.propertyId === propertyId);
-      if (favorite) {
-        // Property is already in favorites, so remove it
-        console.log(favorite);
-        await axios.delete(`http://localhost:8080/favourites?favId=${favorite.id}`);
-        setFavoriteProperties((prevFavorites) =>
-          prevFavorites.filter((fav) => fav.propertyId !== propertyId)
+      const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
+      if (favourite) {
+        // Property is already in favourites, so remove it
+        console.log(favourite);
+        await axios.delete(`http://localhost:8080/favourites?favId=${favourite.id}`);
+        setFavouriteProperties((prevFavourites) =>
+          prevFavourites.filter((fav) => fav.propertyId !== propertyId)
         );
       } else {
-        // Property is not in favorites, so add it
+        // Property is not in favourites, so add it
         const response = await axios.post("http://localhost:8080/favourites", {
           userId: userId,
           propertyId: propertyId,
         });
-        setFavoriteProperties((prevFavorites) => [...prevFavorites, response.data]);
+        setFavouriteProperties((prevFavourites) => [...prevFavourites, response.data]);
         console.log(response.data);
       }
     } catch (error) {
@@ -264,19 +264,19 @@ function FavoriteProperty() {
                     <Col xs="auto">
                       {userRole === "buyer" && (
                         <Card.Text>
-                          {favoriteProperties && favoriteProperties.length > 0 && favoriteProperties.some(
+                          {favouriteProperties && favouriteProperties.length > 0 && favouriteProperties.some(
                             (fav) => fav.propertyId === property.id
                           ) ? (
                             <FaHeart
                               color="red"
-                              onClick={() => handleFavoriteClick(property.id)}
+                              onClick={() => handleFavouriteClick(property.id)}
                               style={{ cursor: "pointer" }}
                               className="bounce"
                             />
                           ) : (
                             <FaHeart
                               color="gray"
-                              onClick={() => handleFavoriteClick(property.id)}
+                              onClick={() => handleFavouriteClick(property.id)}
                               style={{ cursor: "pointer" }}
                               className="pulse"
                             />
@@ -291,7 +291,7 @@ function FavoriteProperty() {
           ))
         ) : (
           <Col md={12}>
-            <p>No favorite properties found.</p>
+            <p>No favourite properties found.</p>
           </Col>
         )}
       </Row>
@@ -323,4 +323,4 @@ function FavoriteProperty() {
   );
 }
 
-export default FavoriteProperty;
+export default FavouriteProperty;
