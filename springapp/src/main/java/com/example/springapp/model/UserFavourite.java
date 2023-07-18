@@ -7,8 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "user_favorite", schema = "realestate")
-public class UserFavorite {
+@Table(name = "user_favourite", schema = "real_estate")
+public class UserFavourite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,10 +17,10 @@ public class UserFavorite {
     private Long propertyId;
 
     // Constructors, getters, and setters
-    public UserFavorite() {
+    public UserFavourite() {
     }
 
-    public UserFavorite(Long id, Long userId, Long propertyId) {
+    public UserFavourite(Long id, Long userId, Long propertyId) {
         this.id = id;
         this.userId = userId;
         this.propertyId = propertyId;

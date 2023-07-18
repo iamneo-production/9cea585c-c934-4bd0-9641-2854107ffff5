@@ -1,7 +1,17 @@
 package com.example.springapp.model;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "agent", schema = "real_estate")
@@ -14,19 +24,26 @@ public class Agent {
     private String email;
     private String password;
     private String phone;
+    private String address;
     private String profileImageUrl;
 
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Property> properties = new ArrayList<>();
 
     public Agent() {
     }
 
-    public Agent(Long id, String name, String email, String password, String phone, String profileImageUrl) {
+    public Agent(Long id, String name, String email, String password, String phone, String address,
+            String profileImageUrl, List<Property> properties) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.address = address;
         this.profileImageUrl = profileImageUrl;
+        this.properties = properties;
     }
 
     public Long getId() {
@@ -69,6 +86,14 @@ public class Agent {
         this.phone = phone;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getProfileImageUrl() {
         return profileImageUrl;
     }
@@ -77,7 +102,12 @@ public class Agent {
         this.profileImageUrl = profileImageUrl;
     }
 
+    public List<Property> getProperties() {
+        return properties;
+    }
 
-    // Getters and Setters
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
 
 }

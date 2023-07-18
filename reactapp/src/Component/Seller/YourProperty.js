@@ -10,7 +10,7 @@ function YourProperty() {
   const fetchUserProperties = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.get(`http://localhost:8080/agents/properties/${userId}`);
+      const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/properties/${userId}`);
       setUserProperties(response.data);
     } catch (error) {
       console.error('Error fetching user properties:', error);
@@ -25,7 +25,7 @@ function YourProperty() {
     const confirmDelete = window.confirm('Are you sure you want to delete this Property?');
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8080/properties/${propertyId}`);
+        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/${propertyId}`);
         fetchUserProperties(); // Refresh the properties after deletion
       } catch (error) {
         alert('Property Had Purchased cant Remove It');

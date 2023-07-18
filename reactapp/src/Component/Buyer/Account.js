@@ -18,7 +18,7 @@ const Account = () => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`http://localhost:8080/users/id?id=${userId}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`);
         const userData = response.data;
 
         setFormData(userData);
@@ -55,7 +55,7 @@ const Account = () => {
   const handleSave = async () => {
     try {
       console.log(formData);
-      await axios.put(`http://localhost:8080/users/`, formData);
+      await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/`, formData);
 
       setEditMode(false); // Disable edit mode after successful update
     } catch (error) {
