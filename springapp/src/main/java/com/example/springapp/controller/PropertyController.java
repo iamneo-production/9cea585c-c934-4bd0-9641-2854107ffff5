@@ -38,7 +38,7 @@ public class PropertyController {
     private AgentRepository agentRepository;
 
     // @Value("${property.media.path}")
-    private String mediaPath="reactapp/public/Assets/PropertyMedia/";
+    private String mediaPath="home/coder/project/workspace/reactapp/public/Assets/PropertyMedia/";
 
     @PostMapping
     public ResponseEntity<Property> registerProperty(

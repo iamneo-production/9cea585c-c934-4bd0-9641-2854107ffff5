@@ -38,7 +38,7 @@ public class AgentController {
     PropertyService propertyService;
 
     // @Value("${profile.image.path}")
-    private String imageUploadPath="reactapp/public/Assets/ProfileImage/";
+    private String imageUploadPath="https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Assets/ProfileImage";
 
     @PostMapping
     public ResponseEntity<Agent> registerAgent(

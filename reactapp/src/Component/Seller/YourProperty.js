@@ -43,54 +43,60 @@ function YourProperty() {
     <Container>
       <h4 className="mx-auto font-weight-bold card-title text-center mt-4 mb-3">Your Property</h4>
       <Row className="justify-content-center mt-4">
-        {userProperties.map((property) => (
-          <Col key={property.id} xs={12} md={4} className="mb-4">
-            <Card>
-              <div style={{ width: '100%', height: '150px', overflow: 'hidden' }}>
-                <Card.Img
-                  variant="top"
-                  src={'./Assets/PropertyMedia/' + property.imageUrls[0]}
-                  alt={property.title}
-                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                />
-              </div>
-              <Card.Body>
-                <Card.Title className="text-truncate mb-2">
-                  {property.title}
-                </Card.Title>
-                <Card.Text className="text-truncate mb-2">
-                  {property.address}
-                </Card.Text>
-                <Card.Text className="mb-2">
-                  <strong>Type:</strong> {property.type}
-                </Card.Text>
-                <Card.Text className="mb-2">
-                  <strong>Price:</strong> {property.price}
-                </Card.Text>
-                <Row className="justify-content-center">
-                  <Col xs="auto">
-                    <Button as={Link} to={`/PropertyDescription/${property.id}`} variant="primary">
-                      View Details
-                    </Button>
-                  </Col>
-                </Row>
-                <Row className="mt-2">
-                  <Col>
-                    <Button variant="warning" onClick={() => handleEdit(property)}>
-                      Edit
-                    </Button>
-                  </Col>
-                  <Col className="d-flex justify-content-end">
-                    <Button variant="danger" onClick={() => handleDelete(property.id)}>
-                      Delete
-                    </Button>
-                  </Col>
-                </Row>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+          {userProperties.length === 0 ? (
+            <Col xs={12} className="text-center">
+              <p>No properties found.</p>
+            </Col>
+          ) : (
+            userProperties.map((property) => (
+              <Col key={property.id} xs={12} md={4} className="mb-4">
+                <Card>
+                  <div style={{ width: '100%', height: '150px', overflow: 'hidden' }}>
+                    <Card.Img
+                      variant="top"
+                      src={'./Assets/PropertyMedia/' + property.imageUrls[0]}
+                      alt={property.title}
+                      style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                    />
+                  </div>
+                  <Card.Body>
+                    <Card.Title className="text-truncate mb-2">
+                      {property.title}
+                    </Card.Title>
+                    <Card.Text className="text-truncate mb-2">
+                      {property.address}
+                    </Card.Text>
+                    <Card.Text className="mb-2">
+                      <strong>Type:</strong> {property.type}
+                    </Card.Text>
+                    <Card.Text className="mb-2">
+                      <strong>Price:</strong> {property.price}
+                    </Card.Text>
+                    <Row className="justify-content-center">
+                      <Col xs="auto">
+                        <Button as={Link} to={`/PropertyDescription/${property.id}`} variant="primary">
+                          View Details
+                        </Button>
+                      </Col>
+                    </Row>
+                    <Row className="mt-2">
+                      <Col>
+                        <Button variant="warning" onClick={() => handleEdit(property)}>
+                          Edit
+                        </Button>
+                      </Col>
+                      <Col className="d-flex justify-content-end">
+                        <Button variant="danger" onClick={() => handleDelete(property.id)}>
+                          Delete
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))
+          )}
+        </Row>
     </Container>
   );
 }
