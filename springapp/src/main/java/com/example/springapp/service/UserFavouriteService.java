@@ -14,9 +14,9 @@ public class UserFavouriteService {
     @Autowired
     UserFavouriteRepository userFavouriteRepository;
 
-    public List<userFavourite> getUserFavourites(Long userId) {
+    public List<UserFavourite> getUserFavourites(Long userId) {
         try {
-            return UserFavouriteRepository.findByUserId(userId);
+            return userFavouriteRepository.findByUserId(userId);
         } catch (Exception e) {
             // Handle exception
             throw new RuntimeException("Failed to get user favorites");
@@ -25,7 +25,7 @@ public class UserFavouriteService {
 
     public UserFavourite addUserFavourite(UserFavourite userFavourite) {
         try {
-            return UserFavouriteRepository.save(userFavourite);
+            return userFavouriteRepository.save(userFavourite);
         } catch (Exception e) {
             // Handle exception
             throw new RuntimeException("Failed to add user favorite");
@@ -34,7 +34,7 @@ public class UserFavouriteService {
 
     public void removeUserFavourite(Long favId) {
         try {
-            UserFavouriteRepository.deleteById(favId);
+            userFavouriteRepository.deleteById(favId);
         } catch (Exception e) {
             // Handle exception
             throw new RuntimeException("Failed to remove user favorite");

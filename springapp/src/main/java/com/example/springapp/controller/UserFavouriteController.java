@@ -38,7 +38,7 @@ public class UserFavouriteController {
     @PostMapping
     public ResponseEntity<UserFavourite> addUserFavourite(@RequestBody UserFavourite userFavourite) {
         try {
-            UserFavourite addedFavorite = UserFavouriteService.addUserFavourite(userFavourite);
+            UserFavourite addedFavorite = userFavouriteService.addUserFavourite(userFavourite);
             return ResponseEntity.status(HttpStatus.CREATED).body(addedFavorite);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -48,7 +48,7 @@ public class UserFavouriteController {
     @DeleteMapping
     public ResponseEntity<Void> removeUserFavourite(@RequestParam Long favId) {
         try {
-            UserFavouriteService.removeUserFavourite(favId);
+            userFavouriteService.removeUserFavourite(favId);
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
