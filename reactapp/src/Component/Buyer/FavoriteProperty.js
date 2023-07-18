@@ -46,7 +46,7 @@ function FavoriteProperty() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/properties");
+        const response = await axios.get("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties");
         if (response.data.length === 0) {
           setLoading(true);
         } else {
@@ -67,7 +67,7 @@ function FavoriteProperty() {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
-            `http://localhost:8080/favorites/user?userId=${userId}`
+            `http://localhost:8080/favourites/user?userId=${userId}`
           );
           if (response.data && response.data.length > 0) {
             setFavoriteProperties(response.data);
@@ -138,13 +138,13 @@ function FavoriteProperty() {
       if (favorite) {
         // Property is already in favorites, so remove it
         console.log(favorite);
-        await axios.delete(`http://localhost:8080/favorites?favId=${favorite.id}`);
+        await axios.delete(`http://localhost:8080/favourites?favId=${favorite.id}`);
         setFavoriteProperties((prevFavorites) =>
           prevFavorites.filter((fav) => fav.propertyId !== propertyId)
         );
       } else {
         // Property is not in favorites, so add it
-        const response = await axios.post("http://localhost:8080/favorites", {
+        const response = await axios.post("http://localhost:8080/favourites", {
           userId: userId,
           propertyId: propertyId,
         });
