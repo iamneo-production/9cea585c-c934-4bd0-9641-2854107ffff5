@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.example.springapp.model.Purchase;
+import com.example.springapp.model.UserFavourite;
 
 @Repository
-public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
-    List<Purchase> findByUserId(Long userId);
+public interface UserFavouriteRepository extends JpaRepository<UserFavourite, Long> {
+    List<UserFavourite> findByUserId(Long userId);
 }
