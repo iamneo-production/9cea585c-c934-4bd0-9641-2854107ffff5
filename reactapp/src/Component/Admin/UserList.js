@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row, Table, Toast } from 'react-bootstrap';
 
 const UserList = () => {
   const [searchId, setSearchId] = useState('');
@@ -9,6 +9,8 @@ const UserList = () => {
   const [filteredUsers, setFilteredUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [errorToast, setErrorToast] = useState(null);
+  const [successToast, setSuccessToast] = useState(null);
 
   const handleCloseModal = () => setShowModal(false);
   const handleOpenModal = (userId) => {
@@ -21,13 +23,16 @@ const UserList = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this user?');
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8080/users/${userId}`);
-        setUsers(users.filter((user) => user.id !== userId));
-        setFilteredUsers(filteredUsers.filter((user) => user.id !== userId));
-        console.log(`User with ID ${userId} deleted successfully.`);
+        await axios.delete(`http://localhost:8080/users/${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+        setFilteredUsers((prevFilteredUsers) => prevFilteredUsers.filter((user) => user.id !== userId));
+        setSuccessToast(`User with ID ${userId} deleted successfully.`);
       } catch (error) {
-        alert('User is Associated With Property , User Cant Be deleted');
-        console.error(`Failed to delete user with ID ${userId}:`, error);
+        setErrorToast('User is Associated With Property, User Cant Be deleted');
       }
     }
   };
@@ -35,17 +40,20 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/users');
+        const response = await axios.get('http://localhost:8080/users', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         const usersData = response.data;
         setUsers(usersData);
       } catch (error) {
-        console.error('Failed to fetch users:', error);
+        setErrorToast('Failed to fetch users');
       }
     };
 
     fetchUsers();
   }, []);
-
 
   useEffect(() => {
     const filterUsers = () => {
@@ -69,8 +77,6 @@ const UserList = () => {
 
     filterUsers();
   }, [searchId, searchKeyword, users]);
-
-
 
   return (
     <Container className="border-0 shadow rounded-3 p-sm-2" style={{ marginTop: '20px', marginBottom: '20px' }}>
@@ -148,8 +154,37 @@ const UserList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+      {errorToast && (
+        <Toast
+          show={true}
+          onClose={() => setErrorToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Error</strong>
+          </Toast.Header>
+          <Toast.Body>{errorToast}</Toast.Body>
+        </Toast>
+      )}
+
+      {successToast && (
+        <Toast
+          show={true}
+          onClose={() => setSuccessToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>{successToast}</Toast.Body>
+        </Toast>
+      )}
     </Container>
   );
 };
 
-export default UserList
+export default UserList;
