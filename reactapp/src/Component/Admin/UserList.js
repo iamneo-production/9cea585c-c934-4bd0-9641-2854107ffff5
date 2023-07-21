@@ -14,8 +14,8 @@ const UserList = () => {
 
   const handleCloseModal = () => setShowModal(false);
   const handleOpenModal = (userId) => {
-    const user = users.find((user) => user.id === userId);
-    setSelectedUser(user);
+    const uservalue = users.find((user) => user.id === userId);
+    setSelectedUser(uservalue);
     setShowModal(true);
   };
 
@@ -23,7 +23,7 @@ const UserList = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this user?');
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8080/users/${userId}`, {
+        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/${userId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -40,7 +40,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/users', {
+        const response = await axios.get('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
