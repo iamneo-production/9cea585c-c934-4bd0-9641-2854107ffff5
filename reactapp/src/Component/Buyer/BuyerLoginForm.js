@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import React, { useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { AiOutlineExclamationCircle } from 'react-icons/ai';
@@ -15,7 +16,7 @@ function BuyerLoginForm({ onCloseModal }) {
     password: ''
   });
   const [validationErrors, setValidationErrors] = useState({});
-  const [error, setError] = useState('');
+  const [loginError, setLoginError] = useState('');
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -23,26 +24,43 @@ function BuyerLoginForm({ onCloseModal }) {
     setValidationErrors({ ...validationErrors, [name]: '' });
   };
 
+  const isEmailValid = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const isPasswordValid = (password) => {
+    return password.trim() !== '';
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    try {
-      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/login', formData);
-      const userId = response.data.id;
+    if (!isEmailValid(formData.email) || !isPasswordValid(formData.password)) {
+      setValidationErrors({
+        email: isEmailValid(formData.email) ? '' : 'Invalid email address',
+        password: isPasswordValid(formData.password) ? '' : 'Password cannot be empty'
+      });
+      return;
+    }
 
+    try {
+      const response = await axios.post('http://localhost:8080/users/login', formData);
+
+      // Handle successful login
+      const decodedToken = jwt_decode(response.data);
       // Store the token in localStorage
-      localStorage.setItem('userId', userId);
+      localStorage.setItem('token', response.data);
+      localStorage.setItem('userId', decodedToken.id);
 
       // Set user role to 'buyer'
-      setUser('buyer');
+      setUser(decodedToken.role);
 
-      console.log(userId);
       onCloseModal();
       navigate('/Home'); // Redirect to the home page or the desired route after successful login
     } catch (error) {
       // Handle login error
-      console.error(error);
-      setError('Invalid email or password'); // Set the error message for authentication failure
+      setLoginError('Invalid email or password'); // Set the error message for authentication failure
     }
   };
 
@@ -91,7 +109,7 @@ function BuyerLoginForm({ onCloseModal }) {
         )}
       </Form.Group>
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {loginError && <p style={{ color: 'red' }}>{loginError}</p>}
       <Form.Group>
         <Row className="justify-content-center">
           <Col xs={12} className="text-center">

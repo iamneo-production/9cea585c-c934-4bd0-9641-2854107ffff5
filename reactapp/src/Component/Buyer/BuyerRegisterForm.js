@@ -69,12 +69,19 @@ function BuyerRegisterForm({ onCloseModal }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Check for any validation errors before submitting
+    if (Object.keys(validationErrors).length !== 0) {
+      return;
+    }
+
     try {
-      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/register', formData);
-      console.log(formData);
+      const response = await axios.post('http://localhost:8080/users/register', formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       if (response.status === 201) {
         // Registration successful
-        console.log(response.data);
         alert('User Registered.');
         onCloseModal();
       } else {
