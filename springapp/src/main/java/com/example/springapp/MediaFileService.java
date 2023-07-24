@@ -1,4 +1,4 @@
-package com.example.springapp.config;
+package com.example.springapp;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;

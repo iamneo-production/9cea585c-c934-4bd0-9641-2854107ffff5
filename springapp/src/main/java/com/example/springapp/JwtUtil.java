@@ -1,4 +1,4 @@
-package com.example.springapp.config;
+package com.example.springapp;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
