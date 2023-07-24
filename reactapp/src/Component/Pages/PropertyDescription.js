@@ -61,7 +61,7 @@ const PropertyDescription = () => {
         <Card >
           <Carousel>
             {property.imageUrls.map((image, index) => (
-              <Carousel.Item key={index}>
+              <Carousel.Item key={image}>
                 <img
                   className="d-block w-100"
                   src={`${backendImagePath}/${image}`}
@@ -120,7 +120,7 @@ const PropertyDescription = () => {
             </Row>
             <Row className="justify-content-center">
               <Col className="d-flex justify-content-center gap-3">
-                {userRole === 'buyer' ? (
+                {userRole === 'buyer' && (
                   <>
                     <Button variant="primary" onClick={handleBuyNow}>
                       Buy Now
@@ -130,7 +130,8 @@ const PropertyDescription = () => {
                       Contact Seller
                     </Button>
                   </>
-                ) : userRole === 'seller' ? (
+                )}
+                {userRole === 'seller' && (
                   <>
                     <OverlayTrigger
                       trigger="click"
@@ -157,7 +158,8 @@ const PropertyDescription = () => {
                       <Button variant="secondary">Contact Seller</Button>
                     </OverlayTrigger>
                   </>
-                ) : (
+                )}
+                {userRole !== 'buyer' && userRole !== 'seller' && (
                   <>
                     <OverlayTrigger
                       trigger="click"
@@ -187,7 +189,6 @@ const PropertyDescription = () => {
                 )}
               </Col>
             </Row>
-
           </Card.Body>
 
           <Modal show={showModal} onHide={handleCloseModal} >
@@ -303,7 +304,7 @@ const PropertyDescription = () => {
               <p>This property has the following features:</p>
               <ul>
                 {property.features.map((feature,) => (
-                  <li>{feature}</li>
+                  <li key={feature}>{feature}</li>
                 ))}
               </ul>
             </div>

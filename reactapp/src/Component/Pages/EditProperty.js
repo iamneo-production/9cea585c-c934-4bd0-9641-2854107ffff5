@@ -46,8 +46,8 @@ function EditProperty() {
       return; // Do not update state if no files are selected
     }
     // Check if each image is within the allowed size limit (2 MB)
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].size > 2 * 1024 * 1024) {
+    for (const file of files) {
+      if (file.size > 2 * 1024 * 1024) {
         event.target.value = '';
         alert('Image size should not exceed 2 MB');
         return; // Do not update state if any image exceeds the limit
@@ -299,7 +299,7 @@ function EditProperty() {
                       <Row>
                         {property.imageUrls.length > 0 &&
                           property.imageUrls.map((imageUrl, index) => (
-                            <Col xs={4} key={index} className="mb-3">
+                            <Col xs={4} key={imageUrl} className="mb-3">
                               <Card>
                                 <Card.Img
                                   src={`${backendImagePath}/${imageUrl}`}
@@ -322,7 +322,7 @@ function EditProperty() {
                         <h6>New Images:</h6>
                         <Row>
                           {newImages.map((image, index) => (
-                            <Col xs={4} key={index} className="mb-3">
+                            <Col xs={4} key={image.name} className="mb-3">
                               <Card>
                                 <Card.Img
                                   src={URL.createObjectURL(image)}
@@ -362,7 +362,7 @@ function EditProperty() {
                       <Row>
                         {property.videoUrls.length > 0 &&
                           property.videoUrls.map((videoUrl, index) => (
-                            <Col xs={6} key={index} className="mb-3">
+                            <Col xs={6} key={videoUrl} className="mb-3">
                               <Card>
                                 <Card.Body>
                                   <video
@@ -395,8 +395,8 @@ function EditProperty() {
                       <div className="mt-3">
                         <h6>New Videos:</h6>
                         <Row>
-                          {newVideos.map((video, index) => (
-                            <Col xs={6} key={index} className="mb-3">
+                          {newVideos.map((video) => (
+                            <Col xs={6} key={video.name} className="mb-3">
                               <Card>
                                 <Card.Body>
                                   <video

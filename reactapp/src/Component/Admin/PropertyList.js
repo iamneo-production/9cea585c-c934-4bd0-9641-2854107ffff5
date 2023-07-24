@@ -152,8 +152,8 @@ function PropertyList() {
               <Row>
                 <Col md={6}>
                   <Carousel>
-                    {selectedProperty.imageUrls.map((imageUrl, index) => (
-                      <Carousel.Item key={index}>
+                    {selectedProperty.imageUrls.map((imageUrl) => (
+                      <Carousel.Item key={imageUrl}>
                         <img
                           className='d-block w-100'
                           src={`${imageUrl}`}

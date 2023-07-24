@@ -124,8 +124,8 @@ const QueryList = () => {
                   <td>
                     {query.replies && query.replies.length > 0 ? (
                       <ul className="reply-list">
-                        {query.replies.map((reply, index) => (
-                          <li key={index}>{reply}</li>
+                        {query.replies.map((reply) => (
+                        <li key={reply.id}>{reply}</li>
                         ))}
                       </ul>
                     ) : (

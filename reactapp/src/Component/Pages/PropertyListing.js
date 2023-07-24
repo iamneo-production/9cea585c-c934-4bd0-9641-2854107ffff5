@@ -319,7 +319,7 @@ function PropertyListing() {
         />
         {Array.from({ length: totalPages }).map((_, index) => (
           <Pagination.Item
-            key={index + 1}
+            key={`page-${index + 1}`}
             active={currentPage === index + 1}
             onClick={() => handlePageChange(index + 1)}
           >

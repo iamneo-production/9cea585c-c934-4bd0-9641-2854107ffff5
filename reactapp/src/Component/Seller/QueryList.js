@@ -86,7 +86,7 @@ const QueryList = () => {
                       {query.replies && query.replies.length > 0 ? (
                         <ul className="reply-list">
                           {query.replies.map((reply, index) => (
-                            <li key={index}>{reply}</li>
+                            <li key={reply.id}>{reply}</li>
                           ))}
                         </ul>
                       ) : (

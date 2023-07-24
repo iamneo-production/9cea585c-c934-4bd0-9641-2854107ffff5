@@ -51,7 +51,7 @@ const Account = () => {
   };
 
   const isPhoneNumberValid = (phone) => {
-    const phoneNumberRegex = /^[0-9]{10}$/;
+    const phoneNumberRegex = /^\d{10}$/;
     return phoneNumberRegex.test(phone);
   };
 

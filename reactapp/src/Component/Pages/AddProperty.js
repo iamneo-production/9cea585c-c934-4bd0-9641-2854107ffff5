@@ -28,22 +28,23 @@ function AddProperty() {
     formData.append('agentId', userId);
 
     // Append each image file to the formData
-    for (let i = 0; i < property.images.length; i++) {
-      formData.append('images', property.images[i]);
+    for (const image of property.images) {
+      formData.append('images', image);
     }
 
     // Append each video file to the formData
-    for (let i = 0; i < property.videos.length; i++) {
-      formData.append('videos', property.videos[i]);
+    for (const video of property.videos) {
+      formData.append('videos', video);
     }
 
     // Append each feature to the formData
-    for (let i = 0; i < property.features.length; i++) {
-      formData.append('features', property.features[i]);
+    for (const feature of property.features) {
+      formData.append('features', feature);
     }
 
     return formData;
   };
+
 
   const handleReset = () => {
     setProperty({
@@ -114,8 +115,8 @@ function AddProperty() {
       return; // Do not update state if no files are selected
     }
     // Check if each image is within the allowed size limit (1 MB)
-    for (let i = 0; i < files.length; i++) {
-      if (files[i].size > 2048 * 2048) {
+    for (const file of files) {
+      if (file.size > 2048 * 2048) {
         event.target.value = '';
         alert('Image size should not exceed 2 MB');
         return; // Do not update state if any image exceeds the limit
@@ -305,7 +306,7 @@ function AddProperty() {
                     Selected Images:
                     <ul>
                       {property.images.map((image, index) => (
-                        <li key={index}>
+                        <li key={image.name}>
                           {image.name}
                           <Button
                             variant="link"
@@ -338,7 +339,7 @@ function AddProperty() {
                     Selected Videos:
                     <ul>
                       {property.videos.map((video, index) => (
-                        <li key={index}>
+                        <li key={video.name}>
                           {video.name}
                           <Button
                             variant="link"
