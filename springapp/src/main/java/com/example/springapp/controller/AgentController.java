@@ -1,14 +1,11 @@
 package com.example.springapp.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,12 +18,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.springapp.config.JwtUtil;
+import com.example.springapp.config.MediaFileService;
 import com.example.springapp.model.Agent;
 import com.example.springapp.model.Property;
 import com.example.springapp.service.AgentService;
 import com.example.springapp.service.PropertyService;
 
-@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*")
 @RestController
 @RequestMapping("/agents")
 public class AgentController {
@@ -37,8 +35,11 @@ public class AgentController {
     @Autowired
     PropertyService propertyService;
 
-    // @Value("${profile.image.path}")
-    private String imageUploadPath="https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Assets/ProfileImage";
+    @Autowired
+    JwtUtil jwtUtil;
+
+    @Autowired
+    MediaFileService mediaFileService;
 
     @PostMapping
     public ResponseEntity<Agent> registerAgent(
@@ -50,15 +51,15 @@ public class AgentController {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
-        // Set the profile image file name
-        String profileImageFileName = profileImage.getOriginalFilename();
-        agent.setProfileImageUrl(profileImageFileName);
+        // Save the profile image and get the profile image URL
+        String profileImageUrl = saveProfileImage(profileImage);
+
+        // Set the profile image URL in the agent object
+        agent.setProfileImageUrl(profileImageUrl);
 
         Agent createdAgent = agentService.createAgent(agent);
 
         if (createdAgent != null) {
-            // Save the profile image
-            saveProfileImage(profileImage, profileImageFileName);
             return new ResponseEntity<>(createdAgent, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -86,12 +87,16 @@ public class AgentController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Agent> loginAgent(@RequestBody Agent loginAgent) {
+    public ResponseEntity<String> loginAgent(@RequestBody Agent loginAgent) {
         Agent agent = agentService.login(loginAgent.getEmail(), loginAgent.getPassword());
-        if (agent != null) {
-            return new ResponseEntity<>(agent, HttpStatus.OK);
+        if (agent != null && loginAgent.getEmail().equals("admin@gmail.com")) {
+            String token = jwtUtil.generateToken(agent.getId(), "admin");
+            return ResponseEntity.ok(token);
+        } else if (agent != null) {
+            String token = jwtUtil.generateToken(agent.getId(), "seller");
+            return ResponseEntity.ok(token);
         } else {
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
 
@@ -102,11 +107,11 @@ public class AgentController {
         try {
             // Handle the profile image if it is provided
             if (profileImage != null) {
-                // Set the profile image file name
-                String profileImageFileName = profileImage.getOriginalFilename();
-                agentData.setProfileImageUrl(profileImageFileName);
-                // Save the profile image
-                saveProfileImage(profileImage, profileImageFileName);
+                // Save the profile image and get the profile image URL
+                String profileImageUrl = saveProfileImage(profileImage);
+
+                // Set the profile image URL in the agent data object
+                agentData.setProfileImageUrl(profileImageUrl);
             }
 
             // Call the service method to update the user
@@ -138,13 +143,13 @@ public class AgentController {
         }
     }
 
-    private void saveProfileImage(MultipartFile profileImage, String profileImageFileName) {
+    private String saveProfileImage(MultipartFile profileImage) {
         try {
-            String imagePath = imageUploadPath + profileImageFileName;
-            File destinationFile = new File(imagePath);
-            profileImage.transferTo(destinationFile);
+            return mediaFileService.saveMediaFile(profileImage);
+
         } catch (IOException e) {
             e.printStackTrace();
+            return null; // Return null in case of an error.
         }
     }
 

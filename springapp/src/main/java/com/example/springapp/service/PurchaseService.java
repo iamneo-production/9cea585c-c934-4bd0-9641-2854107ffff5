@@ -18,8 +18,8 @@ public class PurchaseService {
         return purchaseRepository.save(purchase);
     }
 
-    public Purchase findById(Long Id) {
-        return purchaseRepository.findById(Id).orElse(null);
+    public Purchase findById(Long id) {
+        return purchaseRepository.findById(id).orElse(null);
     }
 
     public List<Purchase> getPurchaseHistoryByUserId(Long userId) {
