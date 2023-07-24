@@ -17,13 +17,16 @@ function Payment() {
   const [activeAccordion, setActiveAccordion] = useState('0');
   const location = useLocation();
   const { property } = location.state;
-  const backendImagePath = './Assets/PropertyMedia';
-  const backendProfileImagePath = './Assets/ProfileImage';
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`);
+        console.log(localStorage.getItem('token'));
+        const response = await axios.get(`http://localhost:8080/users/id?id=${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         setUserData(response.data);
       } catch (error) {
         console.error('Error fetching user data:', error);
@@ -41,15 +44,23 @@ function Payment() {
     try {
       event.preventDefault();
       // Create a new Razorpay order on the server
-      const orderresponse = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order', null, {
-        params: {
-          propertyId: property.id,
-          userId: userData.id,
-          agentId: property.agent.id,
-          payableAmount: property.price + property.price * 0.01,
-          platformFee: property.price * 0.01
+      const orderresponse = await axios.post(
+        'http://localhost:8080/purchase/order',
+        null,
+        {
+          params: {
+            propertyId: property.id,
+            userId: userData.id,
+            agentId: property.agent.id,
+            payableAmount: property.price + property.price * 0.01,
+            platformFee: property.price * 0.01
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
         }
-      });
+      );
+
 
       // Load the Razorpay script dynamically
       const loadScript = (src) => {
@@ -84,11 +95,18 @@ function Payment() {
           }
           console.log(razorpay);
           try {
-            await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order/${id}`, null, {
-              params: {
-                paymentId: razorpay.razorpayPaymentId,
+            await axios.put(
+              `http://localhost:8080/purchase/order/${id}`,
+              null,
+              {
+                params: {
+                  paymentId: razorpay.razorpayPaymentId,
+                },
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
               }
-            });
+            );
             console.log("Order updated successfully");
             navigate("/Home");
           } catch (error) {
@@ -109,6 +127,8 @@ function Payment() {
       console.error('Error creating Razorpay order:', error);
     }
   };
+
+
   return (
     <Container fluid>
       <Row>
@@ -152,7 +172,7 @@ function Payment() {
                   <Row className="align-items-center">
                     <Col xs={3}>
                       <Image
-                        src={`${backendProfileImagePath}/${property.agent.profileImageUrl}`}
+                        src={`${property.agent.profileImageUrl}`}
                         alt="Agent Profile"
                         fluid
                         roundedCircle
@@ -190,7 +210,7 @@ function Payment() {
                   <Row className="align-items-center">
                     <Col xs={6}>
                       <Image
-                        src={`${backendImagePath}/${property.imageUrls[0]}`}
+                        src={`${property.imageUrls[0]}`}
                         alt="Property Image"
                         fluid
                       />

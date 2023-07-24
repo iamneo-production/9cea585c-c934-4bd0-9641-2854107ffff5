@@ -6,14 +6,14 @@ import { UserContext } from '../UserProvider';
 
 function DeactivateAccount() {
   const [alertVisible, setAlertVisible] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Renamed the variable to avoid conflicts
+  const [errorMessage, setErrorMessage] = useState('');
   const { clearUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleDeactivate = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/${userId}`, {
+      await axios.delete(`http://localhost:8080/users/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -64,6 +64,6 @@ function DeactivateAccount() {
       )}
     </Container>
   );
-}
+};
 
 export default DeactivateAccount;

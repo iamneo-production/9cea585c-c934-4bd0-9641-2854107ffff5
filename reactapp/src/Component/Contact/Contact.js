@@ -27,15 +27,19 @@ function Contact() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query', formData);
+      await axios.post('http://localhost:8080/Query', formData);
 
       // Show the success toast
       setShowToast(true);
       setToastType('success');
+
       // Reset the form fields
       handleReset();
     } catch (error) {
-      console.error('Error submitting form data:', error);
+
+      // Show the error toast
+      setShowToast(true);
+      setToastType('error');
     }
   };
 
@@ -136,7 +140,6 @@ function Contact() {
             </Col>
           </Row>
         </Form.Group>
-
       </Form>
       <ToastContainer position="top-end" className="p-3">
         <Toast show={showToast} onClose={handleToastClose} delay={3000} autohide bg={toastType === 'success' ? 'success' : 'danger'} >
@@ -146,13 +149,13 @@ function Contact() {
             ) : (
               <FiAlertTriangle size={24} className="me-2" />
             )}
-            <strong className="me-auto">Toast Title</strong>
+            <strong className="me-auto">{toastType === 'success' ? 'Success' : 'Error'}</strong>
           </Toast.Header>
           <Toast.Body>
             {toastType === 'success' ? (
               'Query Raised.. Will contact you Back Soon'
             ) : (
-              'Issue in Rasing in Query..Use Other Medium of Contact..'
+              'Issue in Raising Query.. Use Other Medium of Contact..'
             )}
           </Toast.Body>
         </Toast>

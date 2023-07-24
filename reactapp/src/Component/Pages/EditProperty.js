@@ -7,7 +7,6 @@ function EditProperty() {
   const location = useLocation();
   const { propertyData } = location.state;
   const [property, setProperty] = useState(propertyData);
-  const backendImagePath = './Assets/PropertyMedia';
   const [newImages, setNewImages] = useState([]);
   const [newVideos, setNewVideos] = useState([]);
   const Navigate = useNavigate();
@@ -136,12 +135,13 @@ function EditProperty() {
     event.preventDefault();
     const formData = createFormData();
     try {
-      const response = await axios.put(
-        `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties`,
+      await axios.put(
+        `http://localhost:8080/properties`,
         formData,
         {
           headers: {
             'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
         }
       );
@@ -149,7 +149,6 @@ function EditProperty() {
         Navigate('/PropertyList');
       else
         Navigate("/SellerProfile/YourProperty");
-      console.log(response.data);
     } catch (error) {
       console.error('AxiosError:', error);
 
@@ -302,7 +301,7 @@ function EditProperty() {
                             <Col xs={4} key={imageUrl} className="mb-3">
                               <Card>
                                 <Card.Img
-                                  src={`${backendImagePath}/${imageUrl}`}
+                                  src={`${imageUrl}`}
                                   alt={imageUrl}
                                 />
                                 <Button
@@ -373,7 +372,7 @@ function EditProperty() {
                                     }}
                                   >
                                     <source
-                                      src={`${backendImagePath}/${videoUrl}`}
+                                      src={`${videoUrl}`}
                                       type="video/mp4"
                                     />
                                     Your browser does not support the video tag.
