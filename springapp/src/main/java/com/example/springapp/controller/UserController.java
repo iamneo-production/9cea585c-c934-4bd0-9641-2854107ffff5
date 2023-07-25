@@ -15,36 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.springapp.config.JwtUtil;
 import com.example.springapp.model.User;
 import com.example.springapp.service.UserService;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import javax.crypto.SecretKey;
-import java.util.Date;
-
 @RestController
 @RequestMapping("/users")
-@Component
 public class UserController {
 
     @Autowired
     private UserService userService;
-    private SecretKey secretKey;
-    private long expiration = 3600000;
 
-    @Value("${jwt.secret}")
-    private String secretKeyString;
-
-    @PostConstruct
-    public void init() {
-        secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
-    }
+    @Autowired
+    JwtUtil jwtUtil;
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(
@@ -68,7 +51,7 @@ public class UserController {
     public ResponseEntity<String> loginUser(@RequestBody User loginUser) {
         User user = userService.login(loginUser.getEmail(), loginUser.getPassword());
         if (user != null) {
-            String token = generateToken(user.getId(), "buyer");
+            String token = jwtUtil.generateToken(user.getId(), "buyer");
             return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -113,18 +96,5 @@ public class UserController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-    }
-
-    public String generateToken(long id, String role) {
-        Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + expiration);
-
-        return Jwts.builder()
-                .claim("id", id)
-                .claim("role", role)
-                .setIssuedAt(now)
-                .setExpiration(expiryDate)
-                .signWith(secretKey)
-                .compact();
     }
 }
