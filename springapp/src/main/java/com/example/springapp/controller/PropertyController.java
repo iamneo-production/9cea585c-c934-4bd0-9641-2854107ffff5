@@ -150,6 +150,6 @@ public class PropertyController {
     }
 
     private String saveFile(MultipartFile file) throws IOException {
-        return mediaFileService.saveMediaFile(file);
+        return  mediaFileService.saveMediaFile(file);
     }
 }

@@ -146,9 +146,7 @@ public class AgentController {
     private String saveProfileImage(MultipartFile profileImage) {
         try {
             return mediaFileService.saveMediaFile(profileImage);
-
         } catch (IOException e) {
-            e.printStackTrace();
             return null; // Return null in case of an error.
         }
     }
