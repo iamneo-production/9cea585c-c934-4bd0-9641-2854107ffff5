@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.springapp.controller.MediaFileService;
 import com.example.springapp.model.Agent;
 import com.example.springapp.model.Property;
 import com.example.springapp.repository.AgentRepository;
 import com.example.springapp.service.PropertyService;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.stereotype.Service;
 
 @RestController
 @RequestMapping("/properties")
@@ -34,8 +37,15 @@ public class PropertyController {
     @Autowired
     private AgentRepository agentRepository;
 
-    @Autowired
-    MediaFileService mediaFileService;
+    private final Cloudinary cloudinary;
+
+    public PropertyController() {
+        cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dojkaeq7z",
+                "api_key", "627827944452969",
+                "api_secret", "2hT5-Cn73z8CxDcWbr1EN1LgK2s"));
+    }
+
 
     @PostMapping
     public ResponseEntity<Property> registerProperty(
@@ -150,6 +160,37 @@ public class PropertyController {
     }
 
     private String saveFile(MultipartFile file) throws IOException {
-        return mediaFileService.saveMediaFile(file);
+        return saveMediaFile(file);
     }
+
+    public String saveMediaFile(MultipartFile file) throws IOException {
+        // Check if the file is null or has a valid content type
+        if (file == null || file.getContentType() == null) {
+            // Handle the case where the file is null or the content type is missing
+            throw new IllegalArgumentException("Invalid file or missing content type.");
+        }
+
+        // Get the original filename
+        String originalFilename = file.getOriginalFilename();
+
+        // Check if the file is an image or a video
+        String contentType = file.getContentType();
+        boolean isImage = contentType != null && contentType.startsWith("image");
+
+        // Upload the file to Cloudinary with the appropriate resource type
+        String mediaUrl;
+        if (isImage) {
+            mediaUrl = cloudinary.uploader()
+                    .upload(file.getBytes(), ObjectUtils.asMap("public_id", originalFilename))
+                    .get("url").toString();
+        } else {
+            mediaUrl = cloudinary.uploader()
+                    .upload(file.getBytes(), ObjectUtils.asMap("resource_type", "video", "public_id", originalFilename))
+                    .get("url").toString();
+        }
+
+        // Return the public URL of the uploaded file
+        return mediaUrl;
+    }
+
 }

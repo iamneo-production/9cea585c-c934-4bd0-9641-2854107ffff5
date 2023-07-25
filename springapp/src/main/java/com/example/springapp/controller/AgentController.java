@@ -18,16 +18,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.springapp.controller.JwtUtil;
-import com.example.springapp.controller.MediaFileService;
 import com.example.springapp.model.Agent;
 import com.example.springapp.model.Property;
 import com.example.springapp.service.AgentService;
 import com.example.springapp.service.PropertyService;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import org.springframework.stereotype.Service;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import javax.crypto.SecretKey;
+import java.util.Date;
+
+@Component
 @RestController
 @RequestMapping("/agents")
 public class AgentController {
+
+    private SecretKey secretKey;
+    private long expiration = 3600000;
+
+    @Value("${jwt.secret}")
+    private String secretKeyString;
+
+    @PostConstruct
+    public void init() {
+        secretKey = Keys.hmacShaKeyFor(secretKeyString.getBytes());
+    }
 
     @Autowired
     AgentService agentService;
@@ -35,11 +59,14 @@ public class AgentController {
     @Autowired
     PropertyService propertyService;
 
-    @Autowired
-    JwtUtil jwtUtil;
+    private final Cloudinary cloudinary;
 
-    @Autowired
-    MediaFileService mediaFileService;
+    public AgentController() {
+        cloudinary = new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", "dojkaeq7z",
+                "api_key", "627827944452969",
+                "api_secret", "2hT5-Cn73z8CxDcWbr1EN1LgK2s"));
+    }
 
     @PostMapping
     public ResponseEntity<Agent> registerAgent(
@@ -90,10 +117,10 @@ public class AgentController {
     public ResponseEntity<String> loginAgent(@RequestBody Agent loginAgent) {
         Agent agent = agentService.login(loginAgent.getEmail(), loginAgent.getPassword());
         if (agent != null && loginAgent.getEmail().equals("admin@gmail.com")) {
-            String token = jwtUtil.generateToken(agent.getId(), "admin");
+            String token = generateToken(agent.getId(), "admin");
             return ResponseEntity.ok(token);
         } else if (agent != null) {
-            String token = jwtUtil.generateToken(agent.getId(), "seller");
+            String token = generateToken(agent.getId(), "seller");
             return ResponseEntity.ok(token);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
@@ -145,11 +172,53 @@ public class AgentController {
 
     private String saveProfileImage(MultipartFile profileImage) {
         try {
-            return mediaFileService.saveMediaFile(profileImage);
+            return saveMediaFile(profileImage);
 
         } catch (IOException e) {
-            return null; 
+            return null;
         }
+    }
+
+    public String generateToken(long id, String role) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + expiration);
+
+        return Jwts.builder()
+                .claim("id", id)
+                .claim("role", role)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(secretKey)
+                .compact();
+    }
+    public String saveMediaFile(MultipartFile file) throws IOException {
+        // Check if the file is null or has a valid content type
+        if (file == null || file.getContentType() == null) {
+            // Handle the case where the file is null or the content type is missing
+            throw new IllegalArgumentException("Invalid file or missing content type.");
+        }
+
+        // Get the original filename
+        String originalFilename = file.getOriginalFilename();
+
+        // Check if the file is an image or a video
+        String contentType = file.getContentType();
+        boolean isImage = contentType != null && contentType.startsWith("image");
+
+        // Upload the file to Cloudinary with the appropriate resource type
+        String mediaUrl;
+        if (isImage) {
+            mediaUrl = cloudinary.uploader()
+                    .upload(file.getBytes(), ObjectUtils.asMap("public_id", originalFilename))
+                    .get("url").toString();
+        } else {
+            mediaUrl = cloudinary.uploader()
+                    .upload(file.getBytes(), ObjectUtils.asMap("resource_type", "video", "public_id", originalFilename))
+                    .get("url").toString();
+        }
+
+        // Return the public URL of the uploaded file
+        return mediaUrl;
     }
 
 }
