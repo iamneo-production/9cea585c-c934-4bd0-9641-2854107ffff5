@@ -91,9 +91,13 @@ function App() {
           </Row>
         </Container>
       )}
+
       <Navfooter />
+
       <ArrowScroller />
+
       <ChatBot />
+      
     </HashRouter>
   );
 }
