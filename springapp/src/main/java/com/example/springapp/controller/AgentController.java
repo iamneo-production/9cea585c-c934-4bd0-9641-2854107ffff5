@@ -42,7 +42,8 @@ public class AgentController {
     MediaFileService mediaFileService;
 
     @PostMapping
-    public ResponseEntity<Agent> registerAgent(@ModelAttribute Agent agent,
+    public ResponseEntity<Agent> registerAgent(
+            @ModelAttribute Agent agent,
             @RequestParam("profileImage") MultipartFile profileImage) {
 
         // Check if the agent already exists
@@ -100,7 +101,8 @@ public class AgentController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateUser(@ModelAttribute Agent agentData,
+    public ResponseEntity<String> updateUser(
+            @ModelAttribute Agent agentData,
             @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
         try {
             // Handle the profile image if it is provided
@@ -142,7 +144,12 @@ public class AgentController {
     }
 
     private String saveProfileImage(MultipartFile profileImage) {
-        return mediaFileService.saveMediaFile(profileImage);
+        try {
+            return mediaFileService.saveMediaFile(profileImage);
+
+        } catch (IOException e) {
+            return null; 
+        }
     }
 
 }
