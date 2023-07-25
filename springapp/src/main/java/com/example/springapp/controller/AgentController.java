@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.springapp.config.JwtUtil;
-import com.example.springapp.config.MediaFileService;
+import com.example.springapp.controller.JwtUtil;
+import com.example.springapp.controller.MediaFileService;
 import com.example.springapp.model.Agent;
 import com.example.springapp.model.Property;
 import com.example.springapp.service.AgentService;

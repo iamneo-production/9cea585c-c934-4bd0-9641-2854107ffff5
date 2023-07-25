@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.springapp.config.JwtUtil;
+import com.example.springapp.controller.JwtUtil;
 import com.example.springapp.model.User;
 import com.example.springapp.service.UserService;
 
