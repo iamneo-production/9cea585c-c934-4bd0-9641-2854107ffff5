@@ -1,24 +1,28 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
-import { Alert, Button, ButtonGroup } from 'react-bootstrap';
+import { Alert, Button, ButtonGroup, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../UserProvider';
 
-const DeactivateAccount = () => {
+function DeactivateAccount() {
   const [alertVisible, setAlertVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const { clearUser } = useContext(UserContext);
   const navigate = useNavigate();
+
   const handleDeactivate = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/${userId}`);
-      console.log(response.data);
+      await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       alert('Account deactivated successfully');
       clearUser(); // Clear user data from local storage
       navigate('/Home');
     } catch (error) {
-      console.error('Error deactivating account:', error);
-      alert('Cant Deactivate account , Your Associated with property');
+      setErrorMessage('Unable to deactivate account. You are associated with a property.');
     }
     setAlertVisible(false);
   };
@@ -32,7 +36,7 @@ const DeactivateAccount = () => {
   };
 
   return (
-    <>
+    <Container>
       <Button variant="primary" onClick={showAlert}>
         Deactivate Account
       </Button>
@@ -52,7 +56,13 @@ const DeactivateAccount = () => {
           </ButtonGroup>
         </Alert>
       )}
-    </>
+
+      {errorMessage && (
+        <Alert variant="danger">
+          {errorMessage}
+        </Alert>
+      )}
+    </Container>
   );
 };
 

@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Col, Form, Pagination, Row, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Form, Pagination, Row, Spinner, Toast } from "react-bootstrap";
 import { FaHeart, FaMapMarkerAlt, FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { UserContext } from '../UserProvider';
@@ -16,8 +16,9 @@ function PropertyListing() {
   const [loading, setLoading] = useState(true);
   const { userRole } = useContext(UserContext);
   const [favouriteProperties, setFavouriteProperties] = useState([]);
-
-  const backendImagePath = './Assets/PropertyMedia';
+  const [showToast, setShowToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleSearch = (event) => {
     setSearchKeyword(event.target.value);
@@ -54,7 +55,8 @@ function PropertyListing() {
           setLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        setErrorMessage("An error occurred while fetching properties.");
+        setShowToast(true);
       }
     };
 
@@ -67,21 +69,36 @@ function PropertyListing() {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
-            `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`
-          );
+            `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
           if (response.data && response.data.length > 0) {
             setFavouriteProperties(response.data);
-            console.log(response.data);
           }
         }
       } catch (error) {
-        console.log(error);
+        setErrorMessage("An error occurred while fetching favourite properties.");
+        setShowToast(true);
       }
     };
 
     fetchFavourites();
   }, [userRole, userId]);
 
+  const isPriceInRange = (price, range) => {
+    switch (range) {
+      case "0-500000":
+        return price <= 500000;
+      case "500001-1000000":
+        return price > 500000 && price <= 1000000;
+      case ">1000001-10000000":
+        return price > 1000000;
+      default:
+        return true;
+    }
+  };
 
   const filteredProperties = properties.filter((property) => {
     const keywordMatch =
@@ -95,12 +112,7 @@ function PropertyListing() {
     const featureMatch =
       selectedFeature === "All" || property.features.some(feature => feature.toLowerCase() === selectedFeature.toLowerCase());
     const priceMatch =
-      selectedPriceRange === "All" ||
-      (selectedPriceRange === "0-500000"
-        ? property.price <= 500000
-        : selectedPriceRange === "500001-1000000"
-          ? property.price > 500000 && property.price <= 1000000
-          : property.price > 1000000);
+      selectedPriceRange === "All" || isPriceInRange(property.price, selectedPriceRange);
 
     return keywordMatch && locationMatch && typeMatch && featureMatch && priceMatch;
   });
@@ -110,6 +122,41 @@ function PropertyListing() {
   const startIndex = (currentPage - 1) * pageSize;
   const endIndex = startIndex + pageSize;
   const propertiesToDisplay = filteredProperties.slice(startIndex, endIndex);
+
+  const handleFavouriteClick = async (propertyId) => {
+    try {
+      const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
+      if (favourite) {
+        // Property is already in favourites, so remove it
+        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setFavouriteProperties((prevFavourites) =>
+          prevFavourites.filter((fav) => fav.propertyId !== propertyId)
+        );
+        setSuccessMessage("Property removed from favourites.");
+        setShowToast(true);
+      } else {
+        // Property is not in favourites, so add it
+        const response = await axios.post("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
+          userId: userId,
+          propertyId: propertyId,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setFavouriteProperties((prevFavourites) => [...prevFavourites, response.data]);
+        setSuccessMessage("Property added to favourites.");
+        setShowToast(true);
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred while processing your request.");
+      setShowToast(true);
+    }
+  };
 
   if (loading) {
     return (
@@ -126,30 +173,7 @@ function PropertyListing() {
         </Spinner>
       </div>
     );
-  };
-  const handleFavouriteClick = async (propertyId) => {
-    try {
-      const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
-      if (favourite) {
-        // Property is already in favourites, so remove it
-        console.log(favourite);
-        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`);
-        setFavouriteProperties((prevFavourites) =>
-          prevFavourites.filter((fav) => fav.propertyId !== propertyId)
-        );
-      } else {
-        // Property is not in favourites, so add it
-        const response = await axios.post("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
-          userId: userId,
-          propertyId: propertyId,
-        });
-        setFavouriteProperties((prevFavourites) => [...prevFavourites, response.data]);
-        console.log(response.data);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  }
 
   return (
     <>
@@ -224,19 +248,22 @@ function PropertyListing() {
       <Row xs={12}>
         {propertiesToDisplay.map((property) => (
           <Col md={4} key={property.id}>
-            <Card className="mb-3">
+            <Card className="mb-3" style={{ height: '400px' }}>
               <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
                 <Card.Img
                   variant="top"
-                  src={`${backendImagePath}/${property.imageUrls[0]}`}
+                  src={`${property.imageUrls[0]}`}
                   alt={property.title}
                   style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                 />
               </div>
               <Card.Body>
-                <Card.Title className="text-truncate mb-2">{property.title}</Card.Title>
-                <Card.Text className="text-truncate mb-2" style={{ minHeight: '50px', maxHeight: '100px', whiteSpace: 'pre-wrap' }}>
-                  {property.description.padEnd(40)}</Card.Text>
+                <Card.Title className="text-truncate mb-2">
+                  {property.title}
+                </Card.Title>
+                <Card.Text className="text-truncate mb-2" style={{ height: '70px', whiteSpace: 'pre-wrap', textAlign: 'justify' }}>
+                  {property.description.padEnd(40)}
+                </Card.Text>
                 <Row className="justify-content-between">
                   <Col md="auto">
                     <Card.Text>
@@ -251,12 +278,11 @@ function PropertyListing() {
                     </Card.Text>
                   </Col>
                 </Row>
-                <Row className="justify-content-between mt-2">
-                  <Col xs lg="4">
-                    <Card.Link as={Link} to={`/PropertyDescription/${property.id}`}>View Details</Card.Link>
+                <Row className="justify-content-center mt-2">
+                  <Col sm="5">
+                    <Button as={Link} variant="light" size='sm' to={`/PropertyDescription/${property.id}`}>View Details</Button>
                   </Col>
-
-                  <Col xs="auto">
+                  <Col sm='auto'>
                     {userRole === "buyer" && (
                       <Card.Text>
                         {favouriteProperties && favouriteProperties.length > 0 && favouriteProperties.some(
@@ -278,14 +304,13 @@ function PropertyListing() {
                         )}
                       </Card.Text>
                     )}
-
                   </Col>
                 </Row>
               </Card.Body>
             </Card>
           </Col>
         ))}
-      </Row >
+      </Row>
       <Pagination className="justify-content-center">
         <Pagination.First onClick={() => handlePageChange(1)} />
         <Pagination.Prev
@@ -294,7 +319,7 @@ function PropertyListing() {
         />
         {Array.from({ length: totalPages }).map((_, index) => (
           <Pagination.Item
-            key={index + 1}
+            key={`page-${index + 1}`}
             active={currentPage === index + 1}
             onClick={() => handlePageChange(index + 1)}
           >
@@ -310,6 +335,26 @@ function PropertyListing() {
           disabled={currentPage === totalPages}
         />
       </Pagination>
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={3000}
+        autohide
+        style={{
+          position: 'fixed',
+          top: '10px',
+          right: '10px',
+          zIndex: 9999,
+        }}
+      >
+        <Toast.Header>
+          <strong className="me-auto">Favourites</strong>
+        </Toast.Header>
+        <Toast.Body>
+          {successMessage && <span style={{ color: 'green' }}>{successMessage}</span>}
+          {errorMessage && <span style={{ color: 'red' }}>{errorMessage}</span>}
+        </Toast.Body>
+      </Toast>
     </>
   );
 }

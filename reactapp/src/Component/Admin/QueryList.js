@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Table, Toast } from 'react-bootstrap';
 import { UserContext } from '../UserProvider';
 
 const QueryList = () => {
@@ -9,14 +9,20 @@ const QueryList = () => {
   const [queries, setQueries] = useState([]);
   const [filteredQueries, setFilteredQueries] = useState([]);
   const [replyTextMap, setReplyTextMap] = useState({});
+  const [errorToast, setErrorToast] = useState(null);
+  const [successToast, setSuccessToast] = useState(null);
   const { userRole } = useContext(UserContext);
 
   const fetchAllQueries = async () => {
     try {
-      const response = await axios.get('http://localhost:8080/Query');
+      const response = await axios.get('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query', {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       setQueries(response.data);
     } catch (error) {
-      console.error('Error fetching queries:', error);
+      setErrorToast('Error fetching queries. Please try again later.');
     }
   };
 
@@ -27,9 +33,10 @@ const QueryList = () => {
   const postReply = async (queryId) => {
     try {
       const replyText = replyTextMap[queryId] || '';
-      await axios.post(`http://localhost:8080/Query/${queryId}`, `${userRole}: ${replyText}`, {
+      await axios.post(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query/${queryId}`, `${userRole}: ${replyText}`, {
         headers: {
           'Content-Type': 'text/plain',
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       });
 
@@ -40,8 +47,9 @@ const QueryList = () => {
 
       // Fetch the updated queries
       fetchAllQueries();
+      setSuccessToast('Reply posted successfully.');
     } catch (error) {
-      console.error('Error posting reply:', error);
+      setErrorToast('Error posting reply. Please try again.');
     }
   };
 
@@ -116,8 +124,8 @@ const QueryList = () => {
                   <td>
                     {query.replies && query.replies.length > 0 ? (
                       <ul className="reply-list">
-                        {query.replies.map((reply, index) => (
-                          <li key={index}>{reply}</li>
+                        {query.replies.map((reply) => (
+                        <li key={reply.id}>{reply}</li>
                         ))}
                       </ul>
                     ) : (
@@ -143,6 +151,36 @@ const QueryList = () => {
           </tbody>
         </Table>
       </div>
+      
+      {errorToast && (
+        <Toast
+          show={true}
+          onClose={() => setErrorToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Error</strong>
+          </Toast.Header>
+          <Toast.Body>{errorToast}</Toast.Body>
+        </Toast>
+      )}
+
+      {successToast && (
+        <Toast
+          show={true}
+          onClose={() => setSuccessToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>{successToast}</Toast.Body>
+        </Toast>
+      )}
     </Container>
   );
 };

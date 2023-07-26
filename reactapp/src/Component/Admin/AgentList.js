@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Modal, Row, Table } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row, Table, Toast } from 'react-bootstrap';
 
-const AgentList = () => {
+function AgentList () {
   const [searchId, setSearchId] = useState('');
   const [searchKeyword, setSearchKeyword] = useState('');
   const [agents, setAgents] = useState([]);
@@ -10,20 +10,25 @@ const AgentList = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedAgent, setSelectedAgent] = useState(null);
   const [properties, setProperties] = useState([]);
-  const backendProfileImagePath = './Assets/ProfileImage';
+  const [errorToast, setErrorToast] = useState(null);
+  const [successToast, setSuccessToast] = useState(null);
 
   const handleCloseModal = () => setShowModal(false);
   const handleOpenModal = async (agentId) => {
-    const agent = agents.find((agent) => agent.id === agentId);
-    setSelectedAgent(agent);
+    const agentvalue = agents.find((agent) => agent.id === agentId);
+    setSelectedAgent(agentvalue);
 
     try {
-      const response = await axios.get(`http://localhost:8080/agents/properties/${agentId}`);
+      const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/properties/${agentId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      });
       const propertiesData = response.data;
       setProperties(propertiesData);
       setShowModal(true);
     } catch (error) {
-      console.error(`Failed to fetch properties for agent with ID ${agentId}:`, error);
+      setErrorToast('Failed to fetch properties for the selected agent.');
     }
   };
 
@@ -31,13 +36,16 @@ const AgentList = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this agent?');
     if (confirmDelete) {
       try {
-        await axios.delete(`http://localhost:8080/agents/${agentId}`);
+        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${agentId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         setAgents(agents.filter((agent) => agent.id !== agentId));
         setFilteredAgents(filteredAgents.filter((agent) => agent.id !== agentId));
-        console.log(`Agent with ID ${agentId} deleted successfully.`);
+        setSuccessToast('Agent deleted successfully.');
       } catch (error) {
-        window.confirm('Agent is Associated With Property, Agent Cant Be deleted');
-        console.error(`Failed to delete agent with ID ${agentId}:`, error);
+        setErrorToast('Failed to delete the agent. The agent might be associated with properties.');
       }
     }
   };
@@ -45,11 +53,15 @@ const AgentList = () => {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/agents');
+        const response = await axios.get('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents', {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
         const agentsData = response.data;
         setAgents(agentsData);
       } catch (error) {
-        console.error('Failed to fetch agents:', error);
+        setErrorToast('Failed to fetch agents.');
       }
     };
 
@@ -133,7 +145,6 @@ const AgentList = () => {
           </tbody>
         </Table>
       </div>
-
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Agent Details</Modal.Title>
@@ -143,7 +154,7 @@ const AgentList = () => {
             <Row className="align-items-center">
               <Col xs={4} className="text-center">
                 <img
-                  src={`${backendProfileImagePath}/${selectedAgent.profileImageUrl}`}
+                  src={`${selectedAgent.profileImageUrl}`}
                   alt="Agent Profile"
                   style={{ width: '150px', height: '150px', borderRadius: '50%' }}
                 />
@@ -164,7 +175,6 @@ const AgentList = () => {
                 ) : (
                   <p>No properties found.</p>
                 )}
-
               </Col>
             </Row>
           )}
@@ -176,8 +186,37 @@ const AgentList = () => {
         </Modal.Footer>
       </Modal>
 
+      {errorToast && (
+        <Toast
+          show={true}
+          onClose={() => setErrorToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Error</strong>
+          </Toast.Header>
+          <Toast.Body>{errorToast}</Toast.Body>
+        </Toast>
+      )}
+
+      {successToast && (
+        <Toast
+          show={true}
+          onClose={() => setSuccessToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>{successToast}</Toast.Body>
+        </Toast>
+      )}
     </Container>
   );
-};
+}
 
 export default AgentList;

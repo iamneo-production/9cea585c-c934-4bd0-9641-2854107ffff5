@@ -92,7 +92,6 @@ function SellerRegisterForm({ onCloseModal }) {
 
       if (response.status === 201) {
         // Registration successful
-        console.log(response.data);
         alert('Agent Registered.');
         onCloseModal();
       } else {

@@ -1,10 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Image, Row, Toast } from 'react-bootstrap';
 
 const Account = () => {
-  const backendImagePath = './Assets/ProfileImage';
-
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -17,17 +15,23 @@ const Account = () => {
   });
 
   const [editMode, setEditMode] = useState(false); // Track edit mode
+  const [errorToast, setErrorToast] = useState(null);
+  const [successToast, setSuccessToast] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/id?id=${userId}`);
+        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/id?id=${userId}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         const userData = response.data;
 
         setFormData(userData);
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        setErrorToast('Error fetching user data');
       }
     };
 
@@ -51,7 +55,7 @@ const Account = () => {
   };
 
   const isPhoneNumberValid = (phone) => {
-    const phoneNumberRegex = /^[0-9]{10}$/;
+    const phoneNumberRegex = /^\d{10}$/;
     return phoneNumberRegex.test(phone);
   };
 
@@ -61,26 +65,28 @@ const Account = () => {
   };
 
   const handleEdit = () => {
-    setEditMode(true); // Enable edit mode
+    setEditMode(true); 
   };
 
   const handleSave = async () => {
     try {
-      console.log(formData);
       await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${localStorage.getItem('token')}`
         },
       });
 
-      setEditMode(false); // Disable edit mode after successful update
+      setEditMode(false); 
+      setSuccessToast('Profile updated successfully');
     } catch (error) {
-      console.error('Error updating user data:', error);
+      setErrorToast('Error updating user data');
     }
   };
 
   const handleCancel = () => {
-    setEditMode(false); // Disable edit mode and revert changes// Fetch the original user data again to reset the form
+    setEditMode(false);
+
   };
 
   return (
@@ -103,7 +109,7 @@ const Account = () => {
                 />
               ) : (
                 <Image
-                  src={`${backendImagePath}/${formData.profileImageUrl}`}
+                  src={`${formData.profileImageUrl}`}
                   roundedCircle
                   className="profile-image"
                   style={{ width: '70%', height: '200px' }}
@@ -121,7 +127,7 @@ const Account = () => {
             </div>
           ) : (
             <Image
-              src={`${backendImagePath}/${formData.profileImageUrl}`}
+              src={`${formData.profileImageUrl}`}
               roundedCircle
               className="profile-image"
               style={{ width: '70%', height: '200px' }}
@@ -139,7 +145,7 @@ const Account = () => {
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    disabled={!editMode} // Disable input in view mode
+                    disabled={!editMode} 
                     required
                   />
                 </Form.Group>
@@ -243,6 +249,36 @@ const Account = () => {
           </Form>
         </Col>
       </Row>
+
+      {errorToast && (
+        <Toast
+          show={true}
+          onClose={() => setErrorToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Error</strong>
+          </Toast.Header>
+          <Toast.Body>{errorToast}</Toast.Body>
+        </Toast>
+      )}
+
+      {successToast && (
+        <Toast
+          show={true}
+          onClose={() => setSuccessToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>{successToast}</Toast.Body>
+        </Toast>
+      )}
     </Container>
   );
 };
