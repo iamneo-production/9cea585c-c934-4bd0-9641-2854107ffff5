@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import React, { useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { BsFillPersonFill, BsLockFill } from 'react-icons/bs';
@@ -26,21 +27,20 @@ function Loginform({ onCloseModal }) {
     try {
       const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/login', formData);
       //Handle successful login
-      const userId = response.data.id;
+      const decodedToken = jwt_decode(response.data);
 
       // Store the token in localStorage
-      localStorage.setItem('userId', userId);
-      console.log(userId);
-
+      localStorage.setItem('token',response.data);
+      localStorage.setItem('userId', decodedToken.id);
+  
       // Set user role to 'seller'
-      setUser('seller');
+      setUser(decodedToken.role);
 
       onCloseModal();
-      navigate('/Home'); // Redirect to the home page or the desired route after successful login
+      navigate('/Home'); 
     } catch (error) {
       // Handle login error
-      console.error(error);
-      setError('Invalid email or password'); // Set the error message for authentication failure
+      setError('Invalid email or password'); 
     }
   };
 

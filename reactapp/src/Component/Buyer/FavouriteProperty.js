@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Col, Form, Pagination, Row, Spinner } from "react-bootstrap";
+import { Card, Col, Form, Pagination, Row, Spinner, Toast } from "react-bootstrap";
 import { FaHeart, FaMapMarkerAlt, FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { UserContext } from '../UserProvider';
@@ -16,8 +16,9 @@ function FavouriteProperty() {
   const [loading, setLoading] = useState(true);
   const { userRole } = useContext(UserContext);
   const [favouriteProperties, setFavouriteProperties] = useState([]);
-
-  const backendImagePath = './Assets/PropertyMedia';
+  const [showToast, setShowToast] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleSearch = (event) => {
     setSearchKeyword(event.target.value);
@@ -46,15 +47,20 @@ function FavouriteProperty() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties");
-        if (response.data.length === 0) {
+        const response = await axios.get("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        if (response.data === null || response.data.length === 0) {
           setLoading(true);
         } else {
           setProperties(response.data);
           setLoading(false);
         }
       } catch (error) {
-        console.log(error);
+        setErrorMessage("An error occurred while fetching properties.");
+        setShowToast(true);
       }
     };
 
@@ -67,25 +73,39 @@ function FavouriteProperty() {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
-            `http://localhost:8080/favourites/user?userId=${userId}`
-          );
+            `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`, {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+          });
           if (response.data && response.data.length > 0) {
             setFavouriteProperties(response.data);
           }
         }
       } catch (error) {
-        console.log(error);
+        setErrorMessage("An error occurred while fetching favourite properties.");
+        setShowToast(true);
       }
     };
 
     fetchFavourites();
   }, [userRole, userId]);
 
-  const filteredProperties = properties.filter((property) => {
-    // Check if the property's id is present in the favouriteProperties array
-    const isFavourite = favouriteProperties.some((fav) => fav.propertyId === property.id);
+  function isPriceInRange(price, range) {
+    switch (range) {
+      case "0-500000":
+        return price <= 500000;
+      case "500001-1000000":
+        return price > 500000 && price <= 1000000;
+      case ">1000001-10000000":
+        return price > 1000000;
+      default:
+        return true;
+    }
+  }
 
-    // Apply other filtering conditions
+  const filteredProperties = properties.filter((property) => {
+    const isFavourite = favouriteProperties.some((fav) => fav.propertyId === property.id);
     const keywordMatch =
       property.title.toLowerCase().includes(searchKeyword.toLowerCase()) ||
       property.description.toLowerCase().includes(searchKeyword.toLowerCase());
@@ -99,15 +119,10 @@ function FavouriteProperty() {
       selectedFeature === "All" || property.features.some((feature) => feature.toLowerCase() === selectedFeature.toLowerCase());
 
     const priceMatch =
-      selectedPriceRange === "All" ||
-      (selectedPriceRange === "0-500000" ? property.price <= 500000 :
-        selectedPriceRange === "500001-1000000" ? property.price > 500000 && property.price <= 1000000 :
-          property.price > 1000000);
+      selectedPriceRange === "All" || isPriceInRange(property.price, selectedPriceRange);
 
-    // Return true only if the property is a favourite and matches all other filtering conditions
     return isFavourite && keywordMatch && locationMatch && typeMatch && featureMatch && priceMatch;
   });
-
 
   const pageSize = 9;
   const totalPages = Math.ceil(filteredProperties.length / pageSize);
@@ -130,32 +145,40 @@ function FavouriteProperty() {
         </Spinner>
       </div>
     );
-  };
+  }
 
   const handleFavouriteClick = async (propertyId) => {
     try {
       const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
       if (favourite) {
-        // Property is already in favourites, so remove it
-        console.log(favourite);
-        await axios.delete(`http://localhost:8080/favourites?favId=${favourite.id}`);
+        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         setFavouriteProperties((prevFavourites) =>
           prevFavourites.filter((fav) => fav.propertyId !== propertyId)
         );
+        setSuccessMessage("Property removed from favourites.");
+        setShowToast(true);
       } else {
-        // Property is not in favourites, so add it
-        const response = await axios.post("http://localhost:8080/favourites", {
+        const response = await axios.post("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
           userId: userId,
           propertyId: propertyId,
+        }, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
         });
         setFavouriteProperties((prevFavourites) => [...prevFavourites, response.data]);
-        console.log(response.data);
+        setSuccessMessage("Property added to favourites.");
+        setShowToast(true);
       }
     } catch (error) {
-      console.log(error);
+      setErrorMessage("An error occurred while processing your request.");
+      setShowToast(true);
     }
   };
-
   return (
     <>
       <Row className="mb-5 align-items-center">
@@ -233,7 +256,7 @@ function FavouriteProperty() {
                 <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
                   <Card.Img
                     variant="top"
-                    src={`${backendImagePath}/${property.imageUrls[0]}`}
+                    src={`${property.imageUrls[0]}`}
                     alt={property.title}
                     style={{ objectFit: 'cover', width: '100%', height: '100%' }}
                   />
@@ -303,7 +326,7 @@ function FavouriteProperty() {
         />
         {Array.from({ length: totalPages }).map((_, index) => (
           <Pagination.Item
-            key={index + 1}
+            key={`page-${index + 1}`}
             active={currentPage === index + 1}
             onClick={() => handlePageChange(index + 1)}
           >
@@ -319,6 +342,23 @@ function FavouriteProperty() {
           disabled={currentPage === totalPages}
         />
       </Pagination>
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        delay={3000}
+        autohide
+        style={{
+          position: 'fixed',
+          top: '10px',
+          right: '10px',
+          zIndex: 9999,
+        }}
+      >
+        <Toast.Header>
+          <strong className="me-auto">Favourites</strong>
+        </Toast.Header>
+        <Toast.Body>{successMessage || errorMessage}</Toast.Body>
+      </Toast>
     </>
   );
 }

@@ -7,18 +7,23 @@ import { UserContext } from '../UserProvider';
 const DeactivateAccount = () => {
   const [alertVisible, setAlertVisible] = useState(false);
   const { clearUser } = useContext(UserContext);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const navigate = useNavigate();
   const handleDeactivate = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${userId}`);
+      const response = await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
       console.log(response.data);
       alert('Account deactivated successfully');
       clearUser(); // Clear user data from local storage
       navigate('/Home');
     } catch (error) {
-      console.error('Error deactivating account:', error);
-      alert('Cant Deactivate account , Your Associated with property');
+      setErrorMessage('Unable to deactivate account. You are associated with a property.');
     }
     setAlertVisible(false);
   };
@@ -50,6 +55,11 @@ const DeactivateAccount = () => {
             <Button onClick={handleCancel}>Cancel</Button>
             <Button variant="danger" onClick={handleDeactivate}>Deactivate</Button>
           </ButtonGroup>
+        </Alert>
+      )}
+      {errorMessage && (
+        <Alert variant="danger">
+          {errorMessage}
         </Alert>
       )}
     </>
