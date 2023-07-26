@@ -42,26 +42,7 @@ public class Purchase {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Purchase() {
-    }
-
-    public Purchase(Long id, Property property, User user, Agent agent, String orderID, String razorpayPaymentId,
-            String razorpayOrderId, String razorpaySignature, String status, double platformFee, double payableAmount,
-            LocalDateTime createdAt) {
-        this.id = id;
-        this.property = property;
-        this.user = user;
-        this.agent = agent;
-        this.orderID = orderID;
-        this.razorpayPaymentId = razorpayPaymentId;
-        this.razorpayOrderId = razorpayOrderId;
-        this.razorpaySignature = razorpaySignature;
-        this.status = status;
-        this.platformFee = platformFee;
-        this.payableAmount = payableAmount;
-        this.createdAt = createdAt;
-    }
-
+ 
     public Long getId() {
         return id;
     }

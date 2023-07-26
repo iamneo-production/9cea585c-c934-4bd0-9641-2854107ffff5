@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Button, Card, Carousel, Col, Container, Modal, Nav, OverlayTrigger, Popover, Row } from 'react-bootstrap';
+import { Button, Card, Carousel, Col, Container, Modal, Nav, OverlayTrigger, Popover, Row, Toast } from 'react-bootstrap';
 import { FaCheck, FaHome, FaInfoCircle, FaMapMarkerAlt, FaRupeeSign } from 'react-icons/fa';
 import { GiBarbecue, GiBedLamp, GiSofa } from 'react-icons/gi';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,17 +12,18 @@ const PropertyDescription = () => {
   const [activeTab, setActiveTab] = useState('about');
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showToast, setShowToast] = useState(false);
+  const [toastType, setToastType] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
+
   const { id } = useParams();
 
-  const backendImagePath = './Assets/PropertyMedia';
-  const backendProfileImagePath = './Assets/ProfileImage';
   const { userRole } = useContext(UserContext);
   const navigate = useNavigate();
 
   const handleBuyNow = () => {
     navigate('/Payment', { state: { property } });
   };
-
 
   useEffect(() => {
     const fetchProperty = async () => {
@@ -31,13 +32,11 @@ const PropertyDescription = () => {
         setProperty(response.data);
         setLoading(false);
       } catch (error) {
-        console.error('Failed to fetch property', error);
+        showToastMessage('error', 'Failed to fetch property.');
       }
     };
     fetchProperty();
   }, [id]);
-
-
 
   const handleCloseModal = () => {
     setShowModal(false);
@@ -51,20 +50,26 @@ const PropertyDescription = () => {
     setActiveTab(tab);
   };
 
+  const showToastMessage = (type, message) => {
+    setToastType(type);
+    setToastMessage(message);
+    setShowToast(true);
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
     <>
-      <Container >
-        <Card >
+      <Container>
+        <Card>
           <Carousel>
             {property.imageUrls.map((image, index) => (
-              <Carousel.Item key={index}>
+              <Carousel.Item key={image}>
                 <img
                   className="d-block w-100"
-                  src={`${backendImagePath}/${image}`}
+                  src={`${image}`}
                   alt="Images"
                   style={{ height: '50vh', objectFit: 'cover' }}
                 />
@@ -120,7 +125,7 @@ const PropertyDescription = () => {
             </Row>
             <Row className="justify-content-center">
               <Col className="d-flex justify-content-center gap-3">
-                {userRole === 'buyer' ? (
+                {userRole === 'buyer' && (
                   <>
                     <Button variant="primary" onClick={handleBuyNow}>
                       Buy Now
@@ -130,7 +135,8 @@ const PropertyDescription = () => {
                       Contact Seller
                     </Button>
                   </>
-                ) : userRole === 'seller' ? (
+                )}
+                {userRole === 'seller' && (
                   <>
                     <OverlayTrigger
                       trigger="click"
@@ -157,7 +163,8 @@ const PropertyDescription = () => {
                       <Button variant="secondary">Contact Seller</Button>
                     </OverlayTrigger>
                   </>
-                ) : (
+                )}
+                {userRole !== 'buyer' && userRole !== 'seller' && (
                   <>
                     <OverlayTrigger
                       trigger="click"
@@ -187,10 +194,9 @@ const PropertyDescription = () => {
                 )}
               </Col>
             </Row>
-
           </Card.Body>
 
-          <Modal show={showModal} onHide={handleCloseModal} >
+          <Modal show={showModal} onHide={handleCloseModal}>
             <Modal.Header closeButton>
               <Modal.Title>Agent Details</Modal.Title>
             </Modal.Header>
@@ -198,7 +204,7 @@ const PropertyDescription = () => {
               <Row className="align-items-center">
                 <Col xs={4} className="text-center">
                   <img
-                    src={`${backendProfileImagePath}/${property.agent.profileImageUrl}`}
+                    src={`${property.agent.profileImageUrl}`}
                     alt="Agent Profile"
                     style={{ width: '150px', height: '150px', borderRadius: '50%' }}
                   />
@@ -289,9 +295,8 @@ const PropertyDescription = () => {
               <iframe
                 width="560"
                 height="315"
-                src={`${backendImagePath}/${property.videoUrls[0]}`}
+                src={`${property.videoUrls[0]}`}
                 title="Property Video"
-                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
@@ -303,13 +308,36 @@ const PropertyDescription = () => {
               <p>This property has the following features:</p>
               <ul>
                 {property.features.map((feature,) => (
-                  <li>{feature}</li>
+                  <li key={feature}>{feature}</li>
                 ))}
               </ul>
             </div>
           )}
         </Container>
       </Container>
+
+      <Toast
+        show={showToast}
+        onClose={() => setShowToast(false)}
+        style={{
+          position: 'fixed',
+          top: '80px',
+          right: '20px',
+          zIndex: 9999,
+        }}
+        delay={3000}
+        autohide
+      >
+        <Toast.Header>
+          {toastType === 'success' ? (
+            <FaCheck style={{ color: '#28a745', marginRight: '8px' }} />
+          ) : (
+            <FaInfoCircle style={{ color: '#dc3545', marginRight: '8px' }} />
+          )}
+          <strong className="mr-auto">{toastType === 'success' ? 'Success' : 'Error'}</strong>
+        </Toast.Header>
+        <Toast.Body>{toastMessage}</Toast.Body>
+      </Toast>
     </>
   );
 };
