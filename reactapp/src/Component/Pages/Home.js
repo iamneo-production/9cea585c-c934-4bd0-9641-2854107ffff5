@@ -7,12 +7,17 @@ function Home() {
     {
       id: 1,
       title: "Carousel Item 1",
-      image: "https://assets.site-static.com/userFiles/2464/image/real-estate-investment-types.jpg",
+      image: "https://cdn.pixabay.com/photo/2016/11/18/17/46/house-1836070_1280.jpg",
     },
     {
       id: 2,
       title: "Carousel Item 2",
-      image: "https://www.vidyard.com/media/real-estate-video-marketing-1920x1080-1.jpg",
+      image: "https://etimg.etb2bimg.com/photo/82709573.cms",
+    },
+    {
+      id: 3,
+      title: "Carousel Item 3",
+      image: "https://cdn.dnaindia.com/sites/default/files/styles/full/public/2019/02/21/793760-realestate-istock-022119.jpg",
     },
   ];
 
@@ -21,11 +26,9 @@ function Home() {
       <Carousel className="mb-5 align-items-center">
         {carouselItems.map((item) => (
           <Carousel.Item key={item.id}>
-            <img
-              className="d-block w-100"
-              src={item.image}
-              alt={item.title}
-              style={{ height: "350px" }}
+            <div
+              className="carousel-image"
+              style={{ backgroundImage: `url(${item.image})`, height: "400px", backgroundSize: "cover", backgroundPosition: "center" }}
             />
           </Carousel.Item>
         ))}
