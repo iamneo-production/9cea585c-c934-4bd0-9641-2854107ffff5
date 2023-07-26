@@ -136,7 +136,7 @@ function EditProperty() {
     const formData = createFormData();
     try {
       await axios.put(
-        `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties`,
+        `https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/properties`,
         formData,
         {
           headers: {

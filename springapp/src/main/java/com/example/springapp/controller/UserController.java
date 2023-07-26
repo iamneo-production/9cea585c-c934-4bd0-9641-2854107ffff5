@@ -22,7 +22,7 @@ import com.example.springapp.service.UserService;
 
 @RestController
 @RequestMapping("/users")
-@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io", allowedHeaders = "*") 
 public class UserController {
 
     @Autowired
