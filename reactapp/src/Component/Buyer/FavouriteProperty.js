@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-import { Card, Col, Form, Pagination, Row, Spinner, Toast } from "react-bootstrap";
+import { Card, Col, Form, Pagination, Row, Spinner, Toast,Button } from "react-bootstrap";
 import { FaHeart, FaMapMarkerAlt, FaRupeeSign } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { UserContext } from '../UserProvider';
@@ -251,64 +251,66 @@ function FavouriteProperty() {
       <Row xs={12}>
         {propertiesToDisplay.length > 0 ? (
           propertiesToDisplay.map((property) => (
-            <Col md={4} key={property.propertyId}>
-              <Card className="mb-3">
-                <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
-                  <Card.Img
-                    variant="top"
-                    src={`${property.imageUrls[0]}`}
-                    alt={property.title}
-                    style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-                  />
-                </div>
-                <Card.Body>
-                  <Card.Title className="text-truncate mb-2">{property.title}</Card.Title>
-                  <Card.Text className="text-truncate mb-2" style={{ minHeight: '50px', maxHeight: '100px', whiteSpace: 'pre-wrap' }}>
-                    {property.description.padEnd(40)}</Card.Text>
-                  <Row className="justify-content-between">
-                    <Col md="auto">
+            <Col md={4} key={property.id}>
+            <Card className="mb-3" style={{ height: '400px' }}>
+              <div style={{ width: '100%', height: '200px', overflow: 'hidden' }}>
+                <Card.Img
+                  variant="top"
+                  src={`${property.imageUrls[0]}`}
+                  alt={property.title}
+                  style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+                />
+              </div>
+              <Card.Body>
+                <Card.Title className="text-truncate mb-2">
+                  {property.title}
+                </Card.Title>
+                <Card.Text className="text-truncate mb-2" style={{ height: '70px', whiteSpace: 'pre-wrap', textAlign: 'justify' }}>
+                  {property.description.padEnd(40)}
+                </Card.Text>
+                <Row className="justify-content-between">
+                  <Col md="auto">
+                    <Card.Text>
+                      <FaRupeeSign className="me-1" />
+                      Price: {property.price}
+                    </Card.Text>
+                  </Col>
+                  <Col md="6">
+                    <Card.Text className="text-truncate">
+                      <FaMapMarkerAlt className="me-1" />
+                      {property.address}
+                    </Card.Text>
+                  </Col>
+                </Row>
+                <Row className="justify-content-center mt-2">
+                  <Col sm="5">
+                    <Button as={Link} variant="light" size='sm' to={`/PropertyDescription/${property.id}`}>View Details</Button>
+                  </Col>
+                  <Col sm='auto'>
+                    {userRole === "buyer" && (
                       <Card.Text>
-                        <FaRupeeSign className="me-1" />
-                        Price: {property.price}
+                        {favouriteProperties && favouriteProperties.length > 0 && favouriteProperties.some(
+                          (fav) => fav.propertyId === property.id
+                        ) ? (
+                          <FaHeart
+                            color="red"
+                            onClick={() => handleFavouriteClick(property.id)}
+                            style={{ cursor: "pointer" }}
+                            className="bounce"
+                          />
+                        ) : (
+                          <FaHeart
+                            color="gray"
+                            onClick={() => handleFavouriteClick(property.id)}
+                            style={{ cursor: "pointer" }}
+                            className="pulse"
+                          />
+                        )}
                       </Card.Text>
-                    </Col>
-                    <Col md="6">
-                      <Card.Text className="text-truncate">
-                        <FaMapMarkerAlt className="me-1" />
-                        {property.address}
-                      </Card.Text>
-                    </Col>
-                  </Row>
-                  <Row className="justify-content-between mt-2">
-                    <Col xs lg="4">
-                      <Card.Link as={Link} to={`/PropertyDescription/${property.id}`}>View Details</Card.Link>
-                    </Col>
-
-                    <Col xs="auto">
-                      {userRole === "buyer" && (
-                        <Card.Text>
-                          {favouriteProperties && favouriteProperties.length > 0 && favouriteProperties.some(
-                            (fav) => fav.propertyId === property.id
-                          ) ? (
-                            <FaHeart
-                              color="red"
-                              onClick={() => handleFavouriteClick(property.id)}
-                              style={{ cursor: "pointer" }}
-                              className="bounce"
-                            />
-                          ) : (
-                            <FaHeart
-                              color="gray"
-                              onClick={() => handleFavouriteClick(property.id)}
-                              style={{ cursor: "pointer" }}
-                              className="pulse"
-                            />
-                          )}
-                        </Card.Text>
-                      )}
-                    </Col>
-                  </Row>
-                </Card.Body>
+                    )}
+                  </Col>
+                </Row>
+              </Card.Body>
               </Card>
             </Col>
           ))
