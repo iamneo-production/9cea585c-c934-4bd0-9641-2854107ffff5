@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row, Toast } from 'react-bootstrap';
 
-const Account = () => {
+function Account ()  {
   const [formData, setFormData] = useState({
     id: '',
     name: '',
@@ -13,22 +13,29 @@ const Account = () => {
   });
 
   const [editMode, setEditMode] = useState(false); // Track edit mode
+  const [errorToast, setErrorToast] = useState(null);
+  const [successToast, setSuccessToast] = useState(null);
+  const fetchUserData = async () => {
+    try {
+      const userId = localStorage.getItem('userId');
+      const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      const userData = response.data;
+
+      setFormData(userData);
+    } catch (error) {
+      setErrorToast('Error fetching user data');
+    }
+  };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userId = localStorage.getItem('userId');
-        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`);
-        const userData = response.data;
-
-        setFormData(userData);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
-
     fetchUserData();
   }, [editMode]);
+
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -39,7 +46,7 @@ const Account = () => {
   };
 
   const isPhoneNumberValid = (phone) => {
-    const phoneNumberRegex = /^[0-9]{10}$/;
+    const phoneNumberRegex = /^\d{10}$/;
     return phoneNumberRegex.test(phone);
   };
 
@@ -54,18 +61,23 @@ const Account = () => {
 
   const handleSave = async () => {
     try {
-      console.log(formData);
-      await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/`, formData);
+      await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
 
       setEditMode(false); // Disable edit mode after successful update
+      setSuccessToast('Profile updated successfully');
     } catch (error) {
-      console.error('Error updating user data:', error);
+      setErrorToast('Error updating user data');
     }
   };
 
   const handleCancel = () => {
     setEditMode(false); // Disable edit mode and revert changes
     // Fetch the original user data again to reset the form
+    fetchUserData();
   };
 
   return (
@@ -190,8 +202,38 @@ const Account = () => {
           </Form>
         </Col>
       </Row>
+
+      {errorToast && (
+        <Toast
+          show={true}
+          onClose={() => setErrorToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Error</strong>
+          </Toast.Header>
+          <Toast.Body>{errorToast}</Toast.Body>
+        </Toast>
+      )}
+
+      {successToast && (
+        <Toast
+          show={true}
+          onClose={() => setSuccessToast(null)}
+          delay={5000}
+          autohide
+          style={{ position: 'absolute', top: 20, right: 20 }}
+        >
+          <Toast.Header>
+            <strong className="mr-auto">Success</strong>
+          </Toast.Header>
+          <Toast.Body>{successToast}</Toast.Body>
+        </Toast>
+      )}
     </Container>
   );
-};
+}
 
 export default Account;

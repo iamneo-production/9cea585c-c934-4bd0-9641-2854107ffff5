@@ -26,22 +26,6 @@ public class Query {
     @ElementCollection
     private List<String> replies;
 
-    public Query() {
-    }
-
-    public Query(Long id, String name, String email, String phoneNumber, String subject, String description,
-            Long userId, String userRole, List<String> replies) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.subject = subject;
-        this.description = description;
-        this.userId = userId;
-        this.userRole = userRole;
-        this.replies = replies;
-    }
-
     public Long getId() {
         return id;
     }

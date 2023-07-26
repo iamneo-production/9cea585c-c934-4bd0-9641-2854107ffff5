@@ -31,20 +31,6 @@ public class Agent {
     @JsonIgnore
     private List<Property> properties = new ArrayList<>();
 
-    public Agent() {
-    }
-
-    public Agent(Long id, String name, String email, String password, String phone, String address,
-            String profileImageUrl, List<Property> properties) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.address = address;
-        this.profileImageUrl = profileImageUrl;
-        this.properties = properties;
-    }
 
     public Long getId() {
         return id;
