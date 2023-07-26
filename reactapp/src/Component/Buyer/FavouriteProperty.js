@@ -47,7 +47,7 @@ function FavouriteProperty() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties", {
+        const response = await axios.get("https://8080-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

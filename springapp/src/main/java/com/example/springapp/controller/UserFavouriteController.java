@@ -19,7 +19,7 @@ import com.example.springapp.service.UserFavouriteService;
 
 @RestController
 @RequestMapping("/favourites")
-@CrossOrigin(origins = "https://8081-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
+@CrossOrigin(origins = "https://8081-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
 public class UserFavouriteController {
 
     @Autowired

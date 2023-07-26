@@ -16,7 +16,7 @@ import com.example.springapp.repository.UserRepository;
 
 @RestController
 @RequestMapping("/Utility")
-@CrossOrigin(origins = "https://8081-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
+@CrossOrigin(origins = "https://8081-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
 public class UtilityController {
 
     @Autowired

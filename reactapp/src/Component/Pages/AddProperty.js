@@ -71,7 +71,7 @@ function AddProperty() {
     event.preventDefault();
     const formData = createFormData();
     try {
-      await axios.post('https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties', formData, {
+      await axios.post('https://8080-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
