@@ -10,7 +10,7 @@ function SellerProfile() {
   return (
     <Container fluid>
       <Row>
-        <Col md={3} style={{ minHeight: '70vh', background: '#f8f9fa', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', borderRadius: '5px' }}>
+        <Col md={3} style={{ minHeight: '80vh', background: '#f8f9fa', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', borderRadius: '5px' }}>
           <Nav className="flex-column">
             <Nav.Item>
               <Nav.Link as={Link} to="/BuyerProfile/Account" className="nav-link">Account</Nav.Link>

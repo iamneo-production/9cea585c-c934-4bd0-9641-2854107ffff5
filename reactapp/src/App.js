@@ -3,7 +3,8 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import ArrowScroller from './Component/ArrowScroller';
 import BuyerProfile from './Component/Buyer/BuyerProfile';
-import FavoriteProperty from './Component/Buyer/FavoriteProperty';
+import FavoriteProperty from './Component/Buyer/FavouriteProperty';
+import ChatBot from './Component/ChatBot';
 import Contact from './Component/Contact/Contact';
 import Faq from './Component/Contact/Faq';
 import HelpCenter from './Component/Contact/HelpCenter';
@@ -35,7 +36,7 @@ function App() {
     <HashRouter>
       <Header />
       {userRole !== 'admin' && (
-        <Container style={{ marginTop: '20px', marginBottom: '20px', minHeight: '550px' }}>
+        <Container style={{ marginTop: '20px', marginBottom: '20px', minHeight: '80vh' }}>
           <Routes>
             {(userRole === 'guest' || userRole === 'buyer' || userRole === 'seller') && (
               <>
@@ -72,10 +73,10 @@ function App() {
       {userRole === 'admin' && (
         <Container fluid>
           <Row>
-            <Col lg={2} className="shadow-sm" style={{ backgroundColor: '#333' }}>
+            <Col lg={2} className="shadow-sm" style={{ backgroundColor: '#333', minHeight: '90vh' }}>
               <AdminSidebar />
             </Col>
-            <Col lg={10}>
+            <Col lg={10} style={{ padding: '20px' }}>
               <Routes>
                 <Route path="/" element={<Dashboard />} />
                 <Route path="/Dashboard" element={<Dashboard />} />
@@ -92,6 +93,7 @@ function App() {
       )}
       <Navfooter />
       <ArrowScroller />
+      <ChatBot />
     </HashRouter>
   );
 }

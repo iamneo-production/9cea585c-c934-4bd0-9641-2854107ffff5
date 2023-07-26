@@ -19,7 +19,7 @@ function DefaultHeader() {
   };
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" >
       <Container>
         <Navbar.Brand as={Link} to="/Home">
           <img
@@ -84,16 +84,17 @@ function BuyerHeader() {
   const navigate = useNavigate();
   const { clearUser } = useContext(UserContext);
 
-  const handleLogout = () => {
+  const handleBuyerLogout = () => {
     localStorage.removeItem('userId');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('token');
     clearUser();
     navigate('/Home');
   };
 
-  const handleLogoutClick = () => {
+  const handleBuyerLogoutClick = () => {
     if (window.confirm('Are you sure you want to logout?')) {
-      handleLogout();
+      handleBuyerLogout();
     }
   };
 
@@ -146,7 +147,7 @@ function BuyerHeader() {
             />} id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to={"/BuyerProfile"}>My Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleBuyerLogoutClick}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -159,16 +160,17 @@ function SellerHeader() {
   const navigate = useNavigate();
   const { clearUser } = useContext(UserContext);
 
-  const handleLogout = () => {
+  const handleSellerLogout = () => {
     localStorage.removeItem('userId');
+    localStorage.removeItem('token');
     localStorage.removeItem('userRole');
     clearUser();
     navigate('/Home');
   };
 
-  const handleLogoutClick = () => {
+  const handleSellerLogoutClick = () => {
     if (window.confirm('Are you sure you want to logout?')) {
-      handleLogout();
+      handleSellerLogout();
     }
   };
 
@@ -215,7 +217,7 @@ function SellerHeader() {
             />} id="basic-nav-dropdown">
               <NavDropdown.Item as={Link} to={"/SellerProfile"}>My Profile</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item onClick={handleLogoutClick}>Logout</NavDropdown.Item>
+              <NavDropdown.Item onClick={handleSellerLogoutClick}>Logout</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>
@@ -230,7 +232,9 @@ function AdminHeader() {
   const { clearUser } = useContext(UserContext);
 
   const handleLogout = () => {
+    localStorage.removeItem('userId');
     localStorage.removeItem('userRole');
+    localStorage.removeItem('token');
     clearUser();
     navigate('/Dashboard');
   };
@@ -290,4 +294,5 @@ function Header() {
     return <DefaultHeader />;
   }
 }
-export default Header
+export default Header;
+

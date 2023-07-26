@@ -19,7 +19,7 @@ public class UserFavouriteService {
             return userFavouriteRepository.findByUserId(userId);
         } catch (Exception e) {
             // Handle exception
-            throw new RuntimeException("Failed to get user favorites");
+            throw new UserFavouriteException("Failed to get user favorites");
         }
     }
 
@@ -28,7 +28,7 @@ public class UserFavouriteService {
             return userFavouriteRepository.save(userFavourite);
         } catch (Exception e) {
             // Handle exception
-            throw new RuntimeException("Failed to add user favorite");
+            throw new UserFavouriteException("Failed to add user favorite");
         }
     }
 
@@ -37,7 +37,13 @@ public class UserFavouriteService {
             userFavouriteRepository.deleteById(favId);
         } catch (Exception e) {
             // Handle exception
-            throw new RuntimeException("Failed to remove user favorite");
+            throw new UserFavouriteException("Failed to remove user favorite");
         }
+    }
+}
+
+class UserFavouriteException extends RuntimeException {
+    public UserFavouriteException(String message) {
+        super(message);
     }
 }
