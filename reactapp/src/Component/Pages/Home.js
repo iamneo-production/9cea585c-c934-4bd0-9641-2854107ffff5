@@ -7,12 +7,12 @@ function Home() {
     {
       id: 1,
       title: "Carousel Item 1",
-      image: "./Assets/Images/Slider1.jpg",
+      image: "https://assets.site-static.com/userFiles/2464/image/real-estate-investment-types.jpg",
     },
     {
       id: 2,
       title: "Carousel Item 2",
-      image: "./Assets/Images/Slider2.jpg",
+      image: "https://www.vidyard.com/media/real-estate-video-marketing-1920x1080-1.jpg",
     },
   ];
 

@@ -19,17 +19,6 @@ public class User {
     private String phone;
     private String address;
 
-    public User() {
-    }
-
-    public User(Long id, String name, String email, String password, String phone, String address) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.address = address;
-    }
 
     // Getters and setters
     public Long getId() {

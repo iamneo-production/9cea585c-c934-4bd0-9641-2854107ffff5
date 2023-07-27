@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
 export const UserContext = createContext();
 
@@ -34,11 +34,11 @@ export const UserProvider = ({ children }) => {
     }
   }, [setUser, clearUser]);
 
-  const userContextValue = {
+  const userContextValue = useMemo(() => ({
     userRole,
     setUser,
     clearUser,
-  };
+  }), [userRole, setUser, clearUser]);
 
   return (
     <UserContext.Provider value={userContextValue}>

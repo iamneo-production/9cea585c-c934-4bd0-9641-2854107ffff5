@@ -1,4 +1,5 @@
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 import React, { useContext, useState } from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { BsFillPersonFill, BsLockFill } from 'react-icons/bs';
@@ -23,23 +24,19 @@ function AdminLoginForm({ onCloseModal }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/agents/login', formData);
+      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/login', formData);
       //Handle successful login
-      const userId = response.data.id;
+      const decodedToken = jwt_decode(response.data);
 
       // Store the token in localStorage
-      localStorage.setItem('userId', userId);
-      console.log(userId);
-      const { email } = formData;
-      // Check if the entered email and password match the admin credentials
-      if (email === 'admin@gmail.com') {
-        // Handle successful login
-        // Set user role to 'admin'
-        setUser('admin');
+      localStorage.setItem('token', response.data);
+      localStorage.setItem('userId', decodedToken.id);
 
-        onCloseModal();
-        navigate('/Dashboard');
-      } // Redirect to the home page or the desired route after successful login
+      // Set user role to 'admin'
+      setUser(decodedToken.role);
+
+      onCloseModal();
+      navigate('/Dashboard');
     } catch {
       // Handle login error
       setError('Invalid email or password');

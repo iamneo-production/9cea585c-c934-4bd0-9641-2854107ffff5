@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +26,6 @@ import com.example.springapp.service.PurchaseService;
 
 @RestController
 @RequestMapping("/purchase")
-@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*")
 public class PurchaseController {
 
     @Autowired
@@ -66,7 +64,6 @@ public class PurchaseController {
             purchase.setStatus("Initiated");
             // Set the current time to the createdAt field
             purchase.setCreatedAt(LocalDateTime.now());
-            
             Purchase order = purchaseService.savePurchase(purchase);
 
             return new ResponseEntity<>(order, HttpStatus.CREATED);
@@ -76,10 +73,10 @@ public class PurchaseController {
     }
 
     @PutMapping("/order/{id}")
-    public ResponseEntity<?> updateOrderWithPaymentId(@PathVariable("id") Long Id,
+    public ResponseEntity<?> updateOrderWithPaymentId(@PathVariable("id") Long id,
             @RequestParam("paymentId") String paymentId) {
         try {
-            Purchase purchase = purchaseService.findById(Id);
+            Purchase purchase = purchaseService.findById(id);
             if (purchase == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found");
             }

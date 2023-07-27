@@ -38,24 +38,7 @@ public class Property {
     @JoinColumn(name = "agent_id")
     private Agent agent;
 
-    public Property() {
-    }
-
-    public Property(Long id, String title, String description, String address, double price, String type, String status,
-            List<String> imageUrls, List<String> videoUrls, List<String> features, Agent agent) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.address = address;
-        this.price = price;
-        this.type = type;
-        this.status = status;
-        this.imageUrls = imageUrls;
-        this.videoUrls = videoUrls;
-        this.features = features;
-        this.agent = agent;
-    }
-
+   
     public Long getId() {
         return id;
     }
