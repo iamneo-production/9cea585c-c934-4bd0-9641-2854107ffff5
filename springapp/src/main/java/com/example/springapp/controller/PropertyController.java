@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.springapp.config.MediaFileService;
@@ -26,6 +27,7 @@ import com.example.springapp.service.PropertyService;
 
 @RestController
 @RequestMapping("/properties")
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
 public class PropertyController {
 
     @Autowired
@@ -150,6 +152,6 @@ public class PropertyController {
     }
 
     private String saveFile(MultipartFile file) throws IOException {
-        return mediaFileService.saveMediaFile(file);
+        return  mediaFileService.saveMediaFile(file);
     }
 }
