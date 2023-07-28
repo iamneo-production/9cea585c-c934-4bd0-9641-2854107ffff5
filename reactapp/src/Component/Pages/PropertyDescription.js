@@ -28,7 +28,11 @@ const PropertyDescription = () => {
   useEffect(() => {
     const fetchProperty = async () => {
       try {
+<<<<<<< HEAD
         const response = await axios.get(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/${id}`);
+=======
+        const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/${id}`);
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         setProperty(response.data);
         setLoading(false);
       } catch (error) {

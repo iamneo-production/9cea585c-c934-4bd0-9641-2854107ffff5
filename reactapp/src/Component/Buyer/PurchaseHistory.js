@@ -12,7 +12,11 @@ const PurchaseHistory = () => {
     const fetchPurchaseHistory = async () => {
       try {
         const userId = localStorage.getItem('userId');
+<<<<<<< HEAD
         const response = await axios.get(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/history?userId=${userId}`, {
+=======
+        const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/history?userId=${userId}`, {
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

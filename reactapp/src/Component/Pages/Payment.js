@@ -22,7 +22,11 @@ function Payment() {
       try {
         const userId = localStorage.getItem('userId');
         console.log(localStorage.getItem('token'));
+<<<<<<< HEAD
         const response = await axios.get(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`, {
+=======
+        const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`, {
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -45,7 +49,11 @@ function Payment() {
       event.preventDefault();
       // Create a new Razorpay order on the server
       const orderresponse = await axios.post(
+<<<<<<< HEAD
         'https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order',
+=======
+        'https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order',
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         null,
         {
           params: {
@@ -96,7 +104,11 @@ function Payment() {
           console.log(razorpay);
           try {
             await axios.put(
+<<<<<<< HEAD
               `https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order/${id}`,
+=======
+              `https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order/${id}`,
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
               null,
               {
                 params: {

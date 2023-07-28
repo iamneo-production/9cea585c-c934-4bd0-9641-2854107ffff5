@@ -47,7 +47,11 @@ function FavouriteProperty() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+<<<<<<< HEAD
         const response = await axios.get("https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties", {
+=======
+        const response = await axios.get("https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties", {
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -73,7 +77,11 @@ function FavouriteProperty() {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
+<<<<<<< HEAD
             `https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`, {
+=======
+            `https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`, {
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -151,7 +159,11 @@ function FavouriteProperty() {
     try {
       const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
       if (favourite) {
+<<<<<<< HEAD
         await axios.delete(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`, {
+=======
+        await axios.delete(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`, {
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -162,7 +174,11 @@ function FavouriteProperty() {
         setSuccessMessage("Property removed from favourites.");
         setShowToast(true);
       } else {
+<<<<<<< HEAD
         const response = await axios.post("https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
+=======
+        const response = await axios.post("https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
+>>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           userId: userId,
           propertyId: propertyId,
         }, {
