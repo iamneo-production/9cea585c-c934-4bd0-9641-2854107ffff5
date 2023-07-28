@@ -1,38 +1,235 @@
-.App {
-  text-align: center;
+.chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.chat-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 50%;
+    font-size: 24px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 1;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.chat-icon:hover {
+    background-color: #0056b3;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.chat-icon.open {
+    animation: chatIconOpenAnim 0.3s linear;
 }
 
-.App-link {
-  color: #61dafb;
+.chat-icon.close {
+    animation: chatIconCloseAnim 0.3s linear;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+@keyframes chatIconOpenAnim {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(45deg);
+    }
+}
+
+@keyframes chatIconCloseAnim {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    100% {
+        transform: rotate(0);
+    }
+}
+
+.chat-panel {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    width: 300px;
+    height: 400px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+}
+
+.message-panel {
+    height: 320px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.instruction-panel {
+    padding: 10px;
+    overflow-y: auto;
+    display: none;
+}
+
+.chatbot-container.show-instructions .message-panel {
+    display: none;
+}
+
+.chatbot-container.show-instructions .instruction-panel {
+    display: block;
+}
+
+.message {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.message.user {
+    justify-content: flex-end;
+}
+
+.message.bot {
+    justify-content: flex-start;
+}
+
+.message-icon {
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+}
+
+.message.user .message-icon {
+    background-image: url('https://img.freepik.com/free-vector/dialog-with-chatbot-artificial-intelligence-reply-question-tech-support-instant-messaging-hotline-operator-ai-assistant-client-bot-consultant-vector-isolated-concept-metaphor-illustration_335657-1995.jpg?w=2000');
+}
+
+.message.bot .message-icon {
+    background-image: url('https://www.freeiconspng.com/thumbs/message-icon-png/message-icon-png-3.png');
+}
+
+.message-content {
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+.user .message-content {
+    background-color: #115098;
+    color: #fff;
+    border-radius: 4px 4px 0 4px;
+}
+
+.bot .message-content {
+    background-color: #f0f0f0;
+    border-radius: 4px 4px 4px 0;
+}
+
+.option-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.option {
+    padding: 8px 16px;
+    background-color: #08a9ff;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.option:hover {
+    background-color: #2228e1;
+}
+
+.type-panel {
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.type-panel input[type="text"] {
+    flex: 1;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 10px;
+    font-size: 14px;
+}
+
+.type-panel button {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+}
+
+.type-panel button:hover {
+    background-color: #0056b3;
+}
+
+.scroll-arrow {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    background-color: #eaeaea;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 9999;
+}
+
+.scroll-arrow:hover {
+    background-color: #ccc;
+}
+
+.scroll-arrow i {
+    color: #333;
+    font-size: 24px;
+}
+
+.back-option {
+    display: flex;
+    align-items: center;
+    color: #0c7df5;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.back-option:hover {
+    text-decoration: underline;
+}
+
+.back-option svg {
+    margin-right: 5px;
 }
