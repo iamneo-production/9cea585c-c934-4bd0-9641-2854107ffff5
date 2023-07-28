@@ -10,6 +10,6 @@ public class BaseController {
     @RequestMapping("/")
     @ResponseBody
     public String home() {
-        return "Spring app started.!";
+        return "Spring app started!";
     }
 }
