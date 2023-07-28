@@ -17,11 +17,7 @@ function PropertyList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios.get('https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/admin', {
-=======
-        const response = await axios.get('https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/admin', {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -79,11 +75,7 @@ function PropertyList() {
     const confirmDelete = window.confirm('Are you sure you want to delete this Property?');
     if (confirmDelete) {
       try {
-<<<<<<< HEAD
         await axios.delete(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/${propertyId}`);
-=======
-        await axios.delete(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties/${propertyId}`);
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         setProperties(properties.filter((property) => property.id !== propertyId));
         setSuccessToast('Property deleted successfully.');
       } catch (error) {

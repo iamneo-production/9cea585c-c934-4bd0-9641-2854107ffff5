@@ -19,11 +19,7 @@ function AgentList () {
     setSelectedAgent(agentvalue);
 
     try {
-<<<<<<< HEAD
       const response = await axios.get(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/properties/${agentId}`, {
-=======
-      const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/properties/${agentId}`, {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -40,11 +36,7 @@ function AgentList () {
     const confirmDelete = window.confirm('Are you sure you want to delete this agent?');
     if (confirmDelete) {
       try {
-<<<<<<< HEAD
         await axios.delete(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${agentId}`, {
-=======
-        await axios.delete(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${agentId}`, {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -61,11 +53,7 @@ function AgentList () {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios.get('https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents', {
-=======
-        const response = await axios.get('https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents', {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

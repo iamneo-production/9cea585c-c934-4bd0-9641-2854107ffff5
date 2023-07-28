@@ -23,11 +23,7 @@ const UserList = () => {
     const confirmDelete = window.confirm('Are you sure you want to delete this user?');
     if (confirmDelete) {
       try {
-<<<<<<< HEAD
         await axios.delete(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/${userId}`, {
-=======
-        await axios.delete(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/${userId}`, {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -44,11 +40,7 @@ const UserList = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-<<<<<<< HEAD
         const response = await axios.get('https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users', {
-=======
-        const response = await axios.get('https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users', {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

@@ -75,11 +75,7 @@ function BuyerRegisterForm({ onCloseModal }) {
     }
 
     try {
-<<<<<<< HEAD
       const response = await axios.post('https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/register', formData, {
-=======
-      const response = await axios.post('https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/register', formData, {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

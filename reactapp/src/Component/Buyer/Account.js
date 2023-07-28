@@ -18,11 +18,7 @@ function Account ()  {
   const fetchUserData = async () => {
     try {
       const userId = localStorage.getItem('userId');
-<<<<<<< HEAD
       const response = await axios.get(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`, {
-=======
-      const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`, {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -65,11 +61,7 @@ function Account ()  {
 
   const handleSave = async () => {
     try {
-<<<<<<< HEAD
       await axios.put(`https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/`, formData, {
-=======
-      await axios.put(`https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/`, formData, {
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }

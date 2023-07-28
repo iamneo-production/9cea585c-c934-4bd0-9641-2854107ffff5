@@ -45,11 +45,7 @@ function BuyerLoginForm({ onCloseModal }) {
     }
 
     try {
-<<<<<<< HEAD
       const response = await axios.post('https://8080-facbdebeebddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/login', formData);
-=======
-      const response = await axios.post('https://8080-feaaeedcbbebeeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/login', formData);
->>>>>>> fcfdb41471e66f70182516a0c73f1b5bac961644
 
       // Handle successful login
       const decodedToken = jwt_decode(response.data);
