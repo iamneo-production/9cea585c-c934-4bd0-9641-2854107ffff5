@@ -27,7 +27,7 @@ import com.example.springapp.service.PurchaseService;
 
 @RestController
 @RequestMapping("/purchase")
-@CrossOrigin(origins = "https://8081-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
+@CrossOrigin(origins = "https://8081-deefcbababbddcfcdcebdafbeaeaadbdbabf.project.examly.io", allowedHeaders = "*") 
 public class PurchaseController {
 
     @Autowired
