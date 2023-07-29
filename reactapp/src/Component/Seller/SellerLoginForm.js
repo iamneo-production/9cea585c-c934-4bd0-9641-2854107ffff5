@@ -14,7 +14,7 @@ function Loginform({ onCloseModal }) {
     email: '',
     password: ''
   });
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -40,7 +40,7 @@ function Loginform({ onCloseModal }) {
       navigate('/Home'); 
     } catch (error) {
       // Handle login error
-      setError('Invalid email or password'); 
+      setErrorMessage('Invalid email or password'); 
     }
   };
 
@@ -78,7 +78,7 @@ function Loginform({ onCloseModal }) {
       </Form.Group>
 
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <Form.Group >
         <Row className="justify-content-center">
           <Col xs={12} className="text-center">
