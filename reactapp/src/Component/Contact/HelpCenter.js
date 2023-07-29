@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 function HelpCenter() {
     const handleRedirect = () => {
-        const url = `mailto:${'saivarunreddynagilla0208@gmail.com'}`;
+        const url = `mailto:${'nmathivathani198@gmail.com'}`;
         window.open(url);
 
     };
