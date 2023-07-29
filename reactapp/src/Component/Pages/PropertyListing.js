@@ -47,7 +47,7 @@ function PropertyListing() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/properties");
+        const response = await axios.get("https://8080-eddfcabaeaccfeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//properties");
         if (response.data.length === 0) {
           setLoading(true);
         } else {
@@ -69,7 +69,7 @@ function PropertyListing() {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
-            `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`, {
+            `https://8080-eddfcabaeaccfeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites/user?userId=${userId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -128,7 +128,7 @@ function PropertyListing() {
       const favourite = favouriteProperties.find((fav) => fav.propertyId === propertyId);
       if (favourite) {
         // Property is already in favourites, so remove it
-        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`, {
+        await axios.delete(`https://8080-eddfcabaeaccfeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites?favId=${favourite.id}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -140,7 +140,7 @@ function PropertyListing() {
         setShowToast(true);
       } else {
         // Property is not in favourites, so add it
-        const response = await axios.post("https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
+        const response = await axios.post("https://8080-eddfcabaeaccfeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/favourites", {
           userId: userId,
           propertyId: propertyId,
         }, {
