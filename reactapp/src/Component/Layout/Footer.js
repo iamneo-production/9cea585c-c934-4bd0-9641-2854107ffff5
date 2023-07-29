@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 
 function Navfooter() {
   return (
-    <footer>
+    <footer style={{ background: '#333', color: '#fff', padding: '10px 0' }}>
       <Container
         style={{
           textAlign: 'center',
