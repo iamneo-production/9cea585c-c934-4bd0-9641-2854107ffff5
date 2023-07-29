@@ -11,7 +11,7 @@ async function buyerLogin() {
     )
     const page = await browser.newPage();
 
-    await page.goto("https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
+    await page.goto("https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
 
     await page.screenshot({path:'home.png'});
     
@@ -26,16 +26,16 @@ async function buyerLogin() {
     await buyerSignUp.click();
 
     await page.waitForSelector('input[name="name"]');
-    await page.type('input[name="name"]', 'Akkash');
+    await page.type('input[name="name"]', 'Sample');
     
     await page.waitForSelector('input[name="email"]');
-    await page.type('input[name="email"]', "sample36@gmail.com");
+    await page.type('input[name="email"]', "sample32@gmail.com");
 
     await page.waitForSelector('input[name="phone"]');
     await page.type('input[name="phone"]', "8939812792");
 
     await page.waitForSelector('input[name="password"]');
-    await page.type('input[name="password"]', "Akaash2002@");
+    await page.type('input[name="password"]', "Sample@32");
 
     await page.waitForSelector('textarea[name="address"]');
     await page.type('textarea[name="address"]', "Chennai");
@@ -55,10 +55,10 @@ async function buyerLogin() {
     await continueAsBuyers.click();
 
     await page.waitForSelector('input[name="email"]');
-    await page.type('input[name="email"]', "sample36@gmail.com");
+    await page.type('input[name="email"]', "sample32@gmail.com");
 
     await page.waitForSelector('input[name="password"]');
-    await page.type('input[name="password"]', "Akaash2002@");
+    await page.type('input[name="password"]', "Sample@32");
 
     const buyerSignInSubmit = await page.waitForXPath("//button[contains(text(), 'Sign In')]");
     await buyerSignInSubmit.click();
@@ -73,7 +73,7 @@ async function buyerLogin() {
 
     //Contact Form Filling
     await page.waitForSelector("input[name = 'name']");
-    await page.type("input[name='name']", "Akaash");
+    await page.type("input[name='name']", "Magi");
 
     await page.waitForSelector('input[name="email"]');
     await page.type('input[name="email"]', "demouser@gmail.com");
@@ -131,7 +131,7 @@ async function buyerLogin() {
         inputField.value = '';
     });
       
-    await page.type('input[name="phone"]', '1234567890');
+    await page.type('input[name="phone"]', '9876543210');
     console.log('phone number changed successfully!');
 
     const saveChanges = await page.waitForXPath("//button[contains(text(), 'Save')]");
@@ -170,7 +170,7 @@ async function adminLogin() {
       window.confirm = () => true;
     });
 
-  await page.goto("https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
+  await page.goto("https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
 
   //Admin Login
   const loginAndRegisters = await page.waitForXPath("//button[contains(text(), 'Login/Register')]");
@@ -182,7 +182,7 @@ async function adminLogin() {
   await page.type('input[name="email"]', "admin@gmail.com");
 
   await page.waitForSelector('input[name="password"]');
-  await page.type('input[name="password"]', "Akaash2002@");
+  await page.type('input[name="password"]', "Admin@32");
 
   const adminSubmit = await page.waitForXPath("//button[contains(text(), 'Sign In')]");
   await adminSubmit.click();
@@ -267,7 +267,7 @@ async function registerAsSeller() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 720 });
 
-    await page.goto('https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
+    await page.goto('https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
 
     await page.waitForFunction(() => {
       const buttons = document.querySelectorAll('button');
@@ -288,11 +288,11 @@ async function registerAsSeller() {
     await signUpButton[0].click();
 
     await page.waitForSelector('input[name="name"]');
-    await page.type('input[name="name"]', 'abpaati');
-    await page.type('input[name="email"]', 'vimal@example.com');
-    await page.type('input[name="phone"]', '1234567890');
-    await page.type('input[name="password"]', 'Password@123');
-    await page.type('textarea[name="address"]', '123 Main Street');
+    await page.type('input[name="name"]', 'mathi');
+    await page.type('input[name="email"]', 'mathi@gmail.com');
+    await page.type('input[name="phone"]', '9876543210');
+    await page.type('input[name="password"]', 'Mathi@22');
+    await page.type('textarea[name="address"]', '1/23 Main Street');
 
     const fileInput = await page.waitForSelector('input[name="profileImage"]');
     const filePath = 'home.png';
@@ -323,7 +323,7 @@ async function loginAsSeller() {
       page = await browser.newPage();
       await page.setViewport({ width: 1280, height: 720 });
   
-      await page.goto('https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
+      await page.goto('https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
       await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
   
       await login(page);
@@ -359,8 +359,8 @@ async function loginAsSeller() {
     await page.waitForTimeout(1000);
   
     await page.waitForSelector('form');
-    await page.type('input[name="email"]', 'thatha123@gmail.com');
-    await page.type('input[name="password"]', 'Abcd@1234');
+    await page.type('input[name="email"]', 'magi@gmail.com');
+    await page.type('input[name="password"]', 'Magi@2002');
     await page.waitForTimeout(1000);
   
     await page.click('button[type="submit"]');
