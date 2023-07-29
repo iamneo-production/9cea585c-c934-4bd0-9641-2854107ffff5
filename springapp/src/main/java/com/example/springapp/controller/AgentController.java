@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.springapp.config.JwtUtil;
@@ -27,6 +28,7 @@ import com.example.springapp.service.PropertyService;
 
 @RestController
 @RequestMapping("/agents")
+@CrossOrigin(origins = "https://8081-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
 public class AgentController {
 
     @Autowired
@@ -42,7 +44,8 @@ public class AgentController {
     MediaFileService mediaFileService;
 
     @PostMapping
-    public ResponseEntity<Agent> registerAgent(@ModelAttribute Agent agent,
+    public ResponseEntity<Agent> registerAgent(
+            @ModelAttribute Agent agent,
             @RequestParam("profileImage") MultipartFile profileImage) {
 
         // Check if the agent already exists
@@ -100,7 +103,8 @@ public class AgentController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateUser(@ModelAttribute Agent agentData,
+    public ResponseEntity<String> updateUser(
+            @ModelAttribute Agent agentData,
             @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
         try {
             // Handle the profile image if it is provided
@@ -142,7 +146,11 @@ public class AgentController {
     }
 
     private String saveProfileImage(MultipartFile profileImage) {
-        return mediaFileService.saveMediaFile(profileImage);
+        try {
+            return mediaFileService.saveMediaFile(profileImage);
+        } catch (IOException e) {
+            return null; // Return null in case of an error.
+        }
     }
 
 }

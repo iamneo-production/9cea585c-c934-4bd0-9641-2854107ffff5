@@ -84,7 +84,7 @@ function SellerRegisterForm({ onCloseModal }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents', formData, {
+      const response = await axios.post('https://8080-deefcbababbddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
