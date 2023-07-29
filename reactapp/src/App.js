@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import logo from './logo.svg';
-import './App.css';
-=======
 import React, { useContext } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { HashRouter, Route, Routes } from 'react-router-dom';
@@ -32,7 +28,6 @@ import Dashboard from './Component/Admin/Dashboard';
 import PropertyList from './Component/Admin/PropertyList';
 import QueryList from './Component/Admin/QueryList';
 import UserList from './Component/Admin/UserList';
->>>>>>> 05b1bd2287bb4471c3a5448dd5d9f463483199c6
 
 function App() {
   const { userRole } = useContext(UserContext);
