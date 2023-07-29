@@ -61,7 +61,6 @@ function AdminLoginForm({ onCloseModal }) {
           We'll never share your email with anyone else.
         </Form.Text>
       </Form.Group>
-
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>
           <BsLockFill /> Password *
@@ -75,7 +74,6 @@ function AdminLoginForm({ onCloseModal }) {
           required
         />
       </Form.Group>
-
       {error && <p style={{ color: 'red' }}>{error}</p>}
       <Form.Group>
         <Row className="justify-content-center">
