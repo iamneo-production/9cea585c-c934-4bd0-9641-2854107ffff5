@@ -22,7 +22,7 @@ function Payment() {
       try {
         const userId = localStorage.getItem('userId');
         console.log(localStorage.getItem('token'));
-        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/users/id?id=${userId}`, {
+        const response = await axios.get(`https://8080-aacbbdbdbffeddcfcdcebdafbeaeaadbdbabf.project.examly.io/users/id?id=${userId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -45,7 +45,7 @@ function Payment() {
       event.preventDefault();
       // Create a new Razorpay order on the server
       const orderresponse = await axios.post(
-        'https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order',
+        'https://8080-aacbbdbdbffeddcfcdcebdafbeaeaadbdbabf.project.examly.io/purchase/order',
         null,
         {
           params: {
@@ -96,7 +96,7 @@ function Payment() {
           console.log(razorpay);
           try {
             await axios.put(
-              `https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/purchase/order/${id}`,
+              `https://8080-aacbbdbdbffeddcfcdcebdafbeaeaadbdbabf.project.examly.io/purchase/order/${id}`,
               null,
               {
                 params: {

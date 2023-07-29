@@ -15,7 +15,7 @@ const QueryList = () => {
 
   const fetchAllQueries = async () => {
     try {
-      const response = await axios.get('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query', {
+      const response = await axios.get('https://8080-aacbbdbdbffeddcfcdcebdafbeaeaadbdbabf.project.examly.io/Query', {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -33,7 +33,7 @@ const QueryList = () => {
   const postReply = async (queryId) => {
     try {
       const replyText = replyTextMap[queryId] || '';
-      await axios.post(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query/${queryId}`, `${userRole}: ${replyText}`, {
+      await axios.post(`https://8080-aacbbdbdbffeddcfcdcebdafbeaeaadbdbabf.project.examly.io/Query/${queryId}`, `${userRole}: ${replyText}`, {
         headers: {
           'Content-Type': 'text/plain',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
