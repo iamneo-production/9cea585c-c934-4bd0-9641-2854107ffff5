@@ -22,7 +22,7 @@ const Account = () => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/id?id=${userId}`, {
+        const response = await axios.get(`https://8080-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/id?id=${userId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }
@@ -70,7 +70,7 @@ const Account = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/`, formData, {
+      await axios.put(`https://8080-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem('token')}`

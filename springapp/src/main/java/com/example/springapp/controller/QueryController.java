@@ -18,7 +18,7 @@ import com.example.springapp.service.QueryService;
 
 @RestController
 @RequestMapping("/Query")
-@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
+@CrossOrigin(origins = "https://8081-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io", allowedHeaders = "*") 
 public class QueryController {
 
     @Autowired

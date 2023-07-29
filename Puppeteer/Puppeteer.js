@@ -11,7 +11,7 @@ async function buyerLogin() {
     )
     const page = await browser.newPage();
 
-    await page.goto("https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
+    await page.goto("https://8081-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/#/Home"); 
 
     await page.screenshot({path:'home.png'});
     
@@ -170,7 +170,7 @@ async function adminLogin() {
       window.confirm = () => true;
     });
 
-  await page.goto("https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
+  await page.goto("https://8081-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/#/Home"); 
 
   //Admin Login
   const loginAndRegisters = await page.waitForXPath("//button[contains(text(), 'Login/Register')]");
@@ -267,7 +267,7 @@ async function registerAsSeller() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 720 });
 
-    await page.goto('https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
+    await page.goto('https://8081-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/#/Home');
 
     await page.waitForFunction(() => {
       const buttons = document.querySelectorAll('button');
@@ -323,7 +323,7 @@ async function loginAsSeller() {
       page = await browser.newPage();
       await page.setViewport({ width: 1280, height: 720 });
   
-      await page.goto('https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
+      await page.goto('https://8081-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/#/Home');
       await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
   
       await login(page);

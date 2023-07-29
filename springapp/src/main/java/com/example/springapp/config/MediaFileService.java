@@ -52,7 +52,7 @@ public class MediaFileService {
 
     public String saveFile(MultipartFile file) throws IOException {
         String fileName = file.getOriginalFilename();
-        String filePath = "https://8081-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io\\public\\Assets\\PropertyMedia\\"
+        String filePath = "https://8081-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io\\public\\Assets\\PropertyMedia\\"
                 + fileName;
         File destinationFile = new File(filePath);
         file.transferTo(destinationFile);
