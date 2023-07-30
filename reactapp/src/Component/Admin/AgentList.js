@@ -19,7 +19,7 @@ function AgentList () {
     setSelectedAgent(agentvalue);
 
     try {
-      const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/properties/${agentId}`, {
+      const response = await axios.get(`https://8080-dcdddecdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/properties/${agentId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
