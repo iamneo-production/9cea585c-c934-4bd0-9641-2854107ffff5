@@ -10,7 +10,6 @@ export const UserProvider = ({ children }) => {
     localStorage.setItem('userRole', role);
     localStorage.setItem('userExpiration', Date.now() + 3600000); // Set expiration time to 1 hour from now
   }, []);
-
   const clearUser = useCallback(() => {
     setUserRole('guest'); // Reset userRole to 'guest' when clearing user
     localStorage.removeItem('userRole');

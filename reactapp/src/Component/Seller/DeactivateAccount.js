@@ -13,7 +13,7 @@ const DeactivateAccount = () => {
   const handleDeactivate = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.delete(`https://8080-eddfcabaeaccfeddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/${userId}`, {
+      const response = await axios.delete(`https://8080-eddfcabaeaccfeddcfcdcebdafbeaeaadbdbabf.project.examly.io/agents/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
