@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.springapp.config.JwtUtil;
@@ -27,6 +28,7 @@ import com.example.springapp.service.PropertyService;
 
 @RestController
 @RequestMapping("/agents")
+@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io", allowedHeaders = "*") 
 public class AgentController {
 
     @Autowired

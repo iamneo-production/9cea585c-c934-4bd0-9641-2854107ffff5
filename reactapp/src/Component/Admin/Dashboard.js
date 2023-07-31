@@ -9,7 +9,7 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Utility/data', {
+        const response = await axios.get('https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/Utility/data', {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
