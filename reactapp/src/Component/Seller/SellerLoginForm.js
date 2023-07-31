@@ -14,7 +14,7 @@ function Loginform({ onCloseModal }) {
     email: '',
     password: ''
   });
-  const [error, setError] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -25,7 +25,7 @@ function Loginform({ onCloseModal }) {
     event.preventDefault();
 
     try {
-      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/agents/login', formData);
+      const response = await axios.post('https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/agents/login', formData);
       //Handle successful login
       const decodedToken = jwt_decode(response.data);
 
@@ -40,7 +40,7 @@ function Loginform({ onCloseModal }) {
       navigate('/Home'); 
     } catch (error) {
       // Handle login error
-      setError('Invalid email or password'); 
+      setErrorMessage('Invalid email or password'); 
     }
   };
 
@@ -78,7 +78,7 @@ function Loginform({ onCloseModal }) {
       </Form.Group>
 
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
       <Form.Group >
         <Row className="justify-content-center">
           <Col xs={12} className="text-center">
