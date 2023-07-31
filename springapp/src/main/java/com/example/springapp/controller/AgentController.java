@@ -28,7 +28,7 @@ import com.example.springapp.service.PropertyService;
 
 @RestController
 @RequestMapping("/agents")
-@CrossOrigin(origins = "https://8081-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io", allowedHeaders = "*") 
+@CrossOrigin(origins = "https://8081-feaaeedcbbebeeddcfcdcebdafbeaeaadbdbabf.project.examly.io", allowedHeaders = "*") 
 public class AgentController {
 
     @Autowired

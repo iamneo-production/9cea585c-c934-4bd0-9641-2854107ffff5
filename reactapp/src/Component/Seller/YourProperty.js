@@ -12,7 +12,7 @@ function YourProperty() {
   const fetchUserProperties = async () => {
     try {
       const userId = localStorage.getItem('userId');
-      const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/agents/properties/${userId}`, {
+      const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbeaeaadbdbabf.project.examly.io/agents/properties/${userId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`
         }
@@ -31,7 +31,7 @@ function YourProperty() {
     const confirmDelete = window.confirm('Are you sure you want to delete this Property?');
     if (confirmDelete) {
       try {
-        await axios.delete(`https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/properties/${propertyId}`, {
+        await axios.delete(`https://8080-feaaeedcbbebeeddcfcdcebdafbeaeaadbdbabf.project.examly.io/properties/${propertyId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

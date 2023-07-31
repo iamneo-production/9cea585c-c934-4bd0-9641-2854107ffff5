@@ -22,7 +22,7 @@ const Account = () => {
     const fetchUserData = async () => {
       try {
         const userId = localStorage.getItem('userId');
-        const response = await axios.get(`https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/agents/id?id=${userId}`, {
+        const response = await axios.get(`https://8080-feaaeedcbbebeeddcfcdcebdafbeaeaadbdbabf.project.examly.io/agents/id?id=${userId}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`
           }

@@ -47,7 +47,7 @@ function PropertyListing() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/properties");
+        const response = await axios.get("https://8080-feaaeedcbbebeeddcfcdcebdafbeaeaadbdbabf.project.examly.io/properties");
         if (response.data.length === 0) {
           setLoading(true);
         } else {
@@ -69,7 +69,7 @@ function PropertyListing() {
       try {
         if (userRole === "buyer") {
           const response = await axios.get(
-            `https://8080-dfafaaeeddfbcddcfcdcebdafbeaeaadbdbabf.project.examly.io/favourites/user?userId=${userId}`, {
+            `https://8080-feaaeedcbbebeeddcfcdcebdafbeaeaadbdbabf.project.examly.io/favourites/user?userId=${userId}`, {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('token')}`
             }
