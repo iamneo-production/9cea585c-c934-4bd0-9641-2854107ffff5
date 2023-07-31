@@ -109,6 +109,7 @@ const Chatbot = () => {
     } else {
       setMessages((prevMessages) => [
         ...prevMessages,
+        
         {
           id: prevMessages.length + 2,
           content: `Do you want to navigate to ${option.toLowerCase()} page?`,
