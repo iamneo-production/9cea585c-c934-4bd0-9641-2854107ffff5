@@ -11,7 +11,7 @@ async function buyerLogin() {
     )
     const page = await browser.newPage();
 
-    await page.goto("https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
+    await page.goto("https://8081-afaadedbcdddcfcdcebdafbeaeaadbdbabf.project.examly.io//#/Home"); 
 
     await page.screenshot({path:'home.png'});
     
@@ -73,7 +73,7 @@ async function buyerLogin() {
 
     //Contact Form Filling
     await page.waitForSelector("input[name = 'name']");
-    await page.type("input[name='name']", "Akaash");
+    await page.type("input[name='name']", "Magi");
 
     await page.waitForSelector('input[name="email"]');
     await page.type('input[name="email"]', "demouser@gmail.com");
@@ -131,7 +131,7 @@ async function buyerLogin() {
         inputField.value = '';
     });
       
-    await page.type('input[name="phone"]', '1234567890');
+    await page.type('input[name="phone"]', '9876543210');
     console.log('phone number changed successfully!');
 
     const saveChanges = await page.waitForXPath("//button[contains(text(), 'Save')]");
@@ -170,7 +170,7 @@ async function adminLogin() {
       window.confirm = () => true;
     });
 
-  await page.goto("https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home"); 
+  await page.goto("https://8081-afaadedbcdddcfcdcebdafbeaeaadbdbabf.project.examly.io//#/Home"); 
 
   //Admin Login
   const loginAndRegisters = await page.waitForXPath("//button[contains(text(), 'Login/Register')]");
@@ -267,7 +267,7 @@ async function registerAsSeller() {
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 720 });
 
-    await page.goto('https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
+    await page.goto('https://8081-afaadedbcdddcfcdcebdafbeaeaadbdbabf.project.examly.io//#/Home');
 
     await page.waitForFunction(() => {
       const buttons = document.querySelectorAll('button');
@@ -288,11 +288,11 @@ async function registerAsSeller() {
     await signUpButton[0].click();
 
     await page.waitForSelector('input[name="name"]');
-    await page.type('input[name="name"]', 'Magi');
-    await page.type('input[name="email"]', 'magi@gmail.com');
+    await page.type('input[name="name"]', 'Mathi');
+    await page.type('input[name="email"]', 'mathi@gmail.com');
     await page.type('input[name="phone"]', '9876543210');
-    await page.type('input[name="password"]', 'Mathi@2002');
-    await page.type('textarea[name="address"]', '123 Main Street');
+    await page.type('input[name="password"]', 'Mathi@22');
+    await page.type('textarea[name="address"]', '1/23 Main Street');
 
     const fileInput = await page.waitForSelector('input[name="profileImage"]');
     const filePath = 'home.png';
@@ -323,7 +323,7 @@ async function loginAsSeller() {
       page = await browser.newPage();
       await page.setViewport({ width: 1280, height: 720 });
   
-      await page.goto('https://8081-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io//#/Home');
+      await page.goto('https://8081-afaadedbcdddcfcdcebdafbeaeaadbdbabf.project.examly.io//#/Home');
       await page.waitForNavigation({ waitUntil: 'domcontentloaded' });
   
       await login(page);

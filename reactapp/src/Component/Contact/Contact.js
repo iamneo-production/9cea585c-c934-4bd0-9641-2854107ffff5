@@ -27,7 +27,7 @@ function Contact() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await axios.post('https://8080-afaadedbcdddcfcdcebdafbcfcbaedbffbeeaadbbb.project.examly.io/Query', formData);
+      await axios.post('https://8080-afaadedbcdddcfcdcebdafbeaeaadbdbabf.project.examly.io/Query', formData);
 
       // Show the success toast
       setShowToast(true);
